@@ -1,0 +1,32 @@
+@mixin cssReset {
+    padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style-type: none;
+  outline: none;
+  border: none;
+  direction: rtl;
+}
+
+
+@mixin simpleHover {
+    cursor: pointer;
+    transition: all 0.3s ease;
+     &:hover{
+        opacity: 0.4;
+     }
+}
+
+@mixin displayFlex($align){
+    display: flex;
+    align-items: center;
+    @if ($align == center){
+        justify-content: center;
+    }
+    @else if ($align == between){
+        justify-content: space-between;
+    }
+    @else if ($align == evenly){
+        justify-content: space-evenly;
+    }
+}

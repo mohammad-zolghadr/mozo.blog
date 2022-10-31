@@ -1,0 +1,31 @@
+@import "./fonts";
+@import "./variables";
+@import "./mixins";
+
+header {
+    @include displayFlex(between);
+    background-color: $headerColor;
+    padding: 10px;
+
+    a{
+        color: $textFive;
+        font-family: bf;
+        font-size: 0.8rem;
+        @include simpleHover;
+    }
+
+    ul{
+        @include displayFlex(center);
+        column-gap: 20px;
+    }
+
+    li img{
+        width : 20px;
+    }
+
+    button{
+        @include displayFlex(center);
+        column-gap: 10px;
+    }
+
+}

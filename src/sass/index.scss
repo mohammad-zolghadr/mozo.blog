@@ -1,0 +1,23 @@
+@import "./_mixins.scss";
+@import "./fonts";
+@import "./variables";
+
+*{
+  @include cssReset;  
+}
+
+html{
+  font-family: nf;
+}
+
+button {
+  font-family: bf;
+  background: $secondaryColor;
+  color: $textFour;
+  padding: 5px 20px;
+  margin: 5px 10px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  @include simpleHover;
+}

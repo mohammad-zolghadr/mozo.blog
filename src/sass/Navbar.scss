@@ -54,6 +54,41 @@ header {
 
 }
 
+.navbarUsername{
+    position: relative;
+    &>div{
+        background-color: $secondaryColor;
+        @include displayFlex(center);
+        column-gap: 5px;
+        color: $textFive;
+        font-size: 0.7rem;
+        font-family: bf;
+        padding: 3px;
+        padding-right: 10px;
+        border-radius: 20px;
+    @include simpleHover();
+    }
+
+    img{
+        border: 2px solid $blackColor;
+        border-radius: 50%;
+        width: 30px;
+    }
+
+    
+.showLogoutInfo{
+    background-color: $headerColor;
+    color: $textFive;
+    font-size: 0.7rem;
+    font-family: bf;
+    position: absolute;
+    top: 100%;
+    left: 30%;
+}
+
+}
+
+
 .btnResponsiveMenu{
     @include displayFlex(center);
     margin: 0 20px;

@@ -1,16 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+// styles & icons
 import style from "../sass/Navbar.scss";
 import gmailIcon from "../assets/images/gmail-icon.png";
+import logoutIcon from "../assets/images/logout-icon.png";
 import arrowIcon from "../assets/images/arrowMenu.png";
 
+// function
 import { getText, TextKey } from "../Text";
 
-const Navbar = () => {
-  const [navTopResponsive, setNavTopResponsive] = useState(true);
+// Firebase
+import { auth, provider } from "../firebase-config";
+import { signInWithPopup, signOut } from "firebase/auth";
 
+const Navbar = () => {
   const key = new TextKey();
+  const [navTopResponsive, setNavTopResponsive] = useState(true);
+  const [isShowLogout, setIsShowLogout] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    isAuth: false,
+    id: "",
+    name: "",
+    email: "",
+    image: "",
+  });
+
+  useEffect(() => {
+    const userInfoLocalStorage = JSON.parse(localStorage.getItem("userInfo"));
+    setUserInfo(userInfoLocalStorage);
+  }, []);
+
+  const signInHandler = () => {
+    closeNavResponsive();
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        const data = {
+          isAuth: true,
+          id: res.user.uid,
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        };
+        setUserInfo(data);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const signOutHandler = () => {
+    signOut(auth).then(() => {
+      localStorage.clear();
+      setUserInfo({ isAuth: false, id: "", name: "", email: "", image: "" });
+    });
+  };
 
   const navHandlerResponsive = () => {
     setNavTopResponsive(!navTopResponsive);
@@ -18,10 +61,6 @@ const Navbar = () => {
 
   const closeNavResponsive = () => {
     setNavTopResponsive(true);
-  };
-
-  const signIn = () => {
-    closeNavResponsive();
   };
 
   return (
@@ -58,10 +97,25 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <button onClick={signIn}>
-                <img src={gmailIcon} />
-                {getText(key.NB_SignInGmail)}
-              </button>
+              {userInfo.isAuth ? (
+                <div className="navbarUsername" onClick={signOutHandler}>
+                  <div
+                    onMouseEnter={() => setIsShowLogout(true)}
+                    onMouseLeave={() => setIsShowLogout(false)}
+                  >
+                    <span>{userInfo.name}</span>
+                    <img src={userInfo.image} />
+                  </div>
+                  {isShowLogout && (
+                    <span className="showLogoutInfo">خروج از حساب</span>
+                  )}
+                </div>
+              ) : (
+                <button onClick={signInHandler}>
+                  <img src={gmailIcon} />
+                  {getText(key.NB_SignInGmail)}
+                </button>
+              )}
             </li>
           </ul>
         </nav>

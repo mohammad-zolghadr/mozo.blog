@@ -8,6 +8,9 @@ import bgImage from "../assets/images/home.jpg";
 // components
 import Post from "./Post";
 
+// Function
+import { TextKey, getText } from "../Text";
+
 const data = [
   {
     image: bgImage,
@@ -21,36 +24,37 @@ const data = [
 
 const Home = () => {
   let navigate = useNavigate();
+  const key = new TextKey();
   return (
     <div>
       <div className="homeContainer">
         <img src={bgImage} />
         <span className="homeImageBlackCover"></span>
         <div className="homeMainLanding">
-          <h3>هر چه میخواهد دل تنگت بگو!</h3>
+          <h3>{getText(key.HL_Title)}</h3>
           <div className="homeMainLandingDescription">
             <span></span>
             <ul>
-              <li>پست کردن مطالب با دسته بندی متفاوت</li>
-              <li>امکان تایپ مطالب با ویس</li>
-              <li>ثبت نام با جیمیل</li>
+              <li>{getText(key.HL_Option_1)}</li>
+              <li>{getText(key.HL_Option_2)}</li>
+              <li>{getText(key.HL_Option_3)}</li>
             </ul>
           </div>
           <div className="homeMainLandingBtns">
             <button onClick={() => navigate("/blog")} className="secondaryBtn">
-              مشاهده همه پست ها
+              {getText(key.HL_Btn_SeeAllPost)}
             </button>
             <button
               onClick={() => navigate("/new-post")}
               className="primaryBtn"
             >
-              نوشتن پست جدید
+              {getText(key.HL_Btn_NewPost)}
             </button>
           </div>
         </div>
       </div>
       <div className="homePostsContainer">
-        <h3>مطالب اخیر</h3>
+        <h3>{getText(key.HL_Title_LastBlog)}</h3>
         <div>
           <Post data={data[0]} />
           <Post data={data[0]} />

@@ -4,10 +4,10 @@ import style from "../sass/NewPost.scss";
 import voiceIco from "../assets/images/voice-ico.png";
 
 // Function
-import { textKey, getText } from "../Text";
+import { TextKey, getText } from "../Text";
 
 const NewPost = () => {
-  const key = new textKey();
+  const key = new TextKey();
   return (
     <div className="cContainer">
       <form className="newPostFormContainer">

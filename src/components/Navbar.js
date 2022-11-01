@@ -5,8 +5,12 @@ import style from "../sass/Navbar.scss";
 import gmailIcon from "../assets/images/gmail-icon.png";
 import arrowIcon from "../assets/images/arrowMenu.png";
 
+import { getText, TextKey } from "../Text";
+
 const Navbar = () => {
   const [navTopResponsive, setNavTopResponsive] = useState(true);
+
+  const key = new TextKey();
 
   const navHandlerResponsive = () => {
     setNavTopResponsive(!navTopResponsive);
@@ -24,11 +28,11 @@ const Navbar = () => {
     <div>
       <header>
         <Link to="/" onClick={closeNavResponsive}>
-          <h1>مود بلاگ</h1>
+          <h1>{getText(key.NB_Main_Title)}</h1>
         </Link>
 
         <div onClick={navHandlerResponsive} className="btnResponsiveMenu">
-          <span>دسترسی سریع</span>
+          <span>{getText(key.NB_MenuResponsive)}</span>
           <img src={arrowIcon} />
         </div>
 
@@ -40,23 +44,23 @@ const Navbar = () => {
           <ul>
             <li>
               <Link to="/new-post" onClick={closeNavResponsive}>
-                نوشتن پست جدید
+                {getText(key.NB_MenuNewPost)}
               </Link>
             </li>
             <li>
               <Link to="/blog" onClick={closeNavResponsive}>
-                بلاگ ها
+                {getText(key.NB_MenuBlogs)}
               </Link>
             </li>
             <li>
               <Link to="/about-me" onClick={closeNavResponsive}>
-                درباره من
+                {getText(key.NB_AboutMe)}
               </Link>
             </li>
             <li>
               <button onClick={signIn}>
                 <img src={gmailIcon} />
-                ورود با Gmail
+                {getText(key.NB_SignInGmail)}
               </button>
             </li>
           </ul>

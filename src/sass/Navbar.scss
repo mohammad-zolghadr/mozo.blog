@@ -5,7 +5,21 @@
 header {
     @include displayFlex(between);
     background-color: $headerColor;
-    padding: 10px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    padding: 5px 15px;
+
+    nav{
+        background-color: $secondaryColor;
+        border-radius: 0 0 10px 10px;
+        position: absolute;
+        left: 10px;
+        top: -200px;
+        transition: all 0.5s;
+        padding: 10px;
+    }
 
     a{
         color: $textFive;
@@ -16,7 +30,17 @@ header {
 
     ul{
         @include displayFlex(center);
+        flex-direction: column;
         column-gap: 20px;
+    }
+
+    li{
+        padding-bottom: 8px;
+        border-bottom: 1px solid $textTwo;
+    }
+    li:nth-child(4){
+        border: none;
+        margin-top: 5px;
     }
 
     li img{
@@ -28,4 +52,47 @@ header {
         column-gap: 10px;
     }
 
+}
+
+.btnResponsiveMenu{
+    @include displayFlex(center);
+    margin: 0 20px;
+    column-gap: 5px;
+    cursor: pointer;
+    @include simpleHover;
+
+    span{
+        color: $textFive;
+        font-family: bf;
+        font-size: 0.8rem;
+    }
+
+    img{
+        width: 15px;
+        margin-top: 5px;
+    }
+
+}
+
+@media (min-width:660px) {
+    .btnResponsiveMenu{
+        display: none;
+    }
+
+    header {
+        nav{
+            position: none;
+            top: -8px !important;
+            background-color: transparent;
+
+            ul{
+                flex-direction: row;
+
+            }
+
+            li{
+                border: none;
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 const NewPost = () => {
-  return <div>New Post</div>;
+  return <div className="cContainer">New Post</div>;
 };
 
 export default NewPost;

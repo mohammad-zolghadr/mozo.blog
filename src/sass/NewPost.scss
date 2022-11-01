@@ -1,0 +1,76 @@
+@import "./mixins";
+@import "./variables";
+
+.newPostFormContainer{
+
+    @include displayFlex(center);
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 15px;
+
+    input , textArea , .newPostFileUpload{
+        background-color: $inputBg;
+        font-family: nf;
+        border-radius: 25px;
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+
+    textArea{
+        width: 100%;
+        min-height: 400px;
+    }
+
+    img{
+        width: 26px;
+        position: absolute;
+        top: 15px;
+        left : 20px;
+        @include simpleHover();
+    }
+
+
+    &>div{
+        @include displayFlex(center);
+        width: 100%;
+        position: relative;
+    }
+
+}
+
+.newPostFileChooser{
+
+    .newPostFileUpload{
+        width: 170px;
+        text-align: center;
+        font-family: bf;
+        color: $textThree;
+        @include simpleHover();
+        font-size: 0.9rem;
+    }
+
+    input{
+        display: none;
+    }
+
+    button{
+        padding: 10px 20px;
+    }
+}
+
+.newPostSubmit{
+    padding: 10px 20px;
+    width: 50%;
+    margin-top: $topMargin/2.5;
+    background-color: $primaryColor;
+    color: $textFive;
+    font-size: 1rem;
+}
+
+@media (min-width : 768px){
+    .newPostFormContainer{
+        width: 70%;
+        margin: auto;
+    }
+}

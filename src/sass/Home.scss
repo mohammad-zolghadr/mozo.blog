@@ -1,0 +1,96 @@
+@import "./variables";
+@import "./mixins";
+
+.homeContainer{
+      
+    padding-top: $topMargin;
+
+    img , .homeImageBlackCover{
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+    }
+
+    .homeImageBlackCover{
+        background-color: $headerColor;
+        opacity: 0.8;
+    }
+
+}
+
+
+.homeMainLanding{
+    @include displayFlex(center);
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    height: (600px - $topMargin);
+
+    h3{
+        color: $textFive;
+        font-size : 2rem ;
+    }
+
+}
+
+.homeMainLandingDescription{
+
+    @include displayFlex(center);
+    margin-top: 20px;
+    margin-right: $topMargin;
+    column-gap: 15px;
+
+    span {
+        width: 3px;
+        border-radius: 20px;
+        height: 90%;
+        background-color: $primaryColor;
+    }
+
+    li{
+        color: $textFour;
+        font-size: 0.9rem;
+    }
+}
+
+.homeMainLandingBtns{
+    margin-top: 20px;
+    margin-right: $topMargin;
+
+    .primaryBtn{
+        background-color: $blackColor;
+        border: 4px solid $blackColor;
+    }
+    
+    .secondaryBtn{
+        background-color: transparent;
+        border: 4px solid $blackColor;
+    }
+
+}
+
+@media (min-width:768px){
+    .homeMainLanding{
+        margin-right: $topMargin;
+        row-gap: 20px;
+
+        h3{
+            font-size: 2.5rem;
+        }
+
+        li{
+            font-size: 1.1rem;
+        }
+
+        button {
+            font-size: 1.1rem;
+        }
+
+    }
+
+}

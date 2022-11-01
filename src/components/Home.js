@@ -5,11 +5,25 @@ import { useNavigate } from "react-router-dom";
 import style from "../sass/Home.scss";
 import bgImage from "../assets/images/home.jpg";
 
+// components
+import Post from "./Post";
+
+const data = [
+  {
+    image: bgImage,
+    title: "یک فنجان قهوه و گوشه دنج",
+    body: "اینجا پاییز است... چرا امسال پاییز اینقدر بی رحم است؟ واقعا انگار باید از اینجا رفت... اینجا بوی غریبگی می دهد... بوی تنهایی می دهد... باید رفت و گذشت",
+    author: "محمد ذوالقدر",
+    date: "1401/08/10",
+    link: "Link Here",
+  },
+];
+
 const Home = () => {
   let navigate = useNavigate();
   return (
-    <div className="homeContainer">
-      <div>
+    <div>
+      <div className="homeContainer">
         <img src={bgImage} />
         <span className="homeImageBlackCover"></span>
         <div className="homeMainLanding">
@@ -33,6 +47,14 @@ const Home = () => {
               نوشتن پست جدید
             </button>
           </div>
+        </div>
+      </div>
+      <div className="homePostsContainer">
+        <h3>مطالب اخیر</h3>
+        <div>
+          <Post data={data[0]} />
+          <Post data={data[0]} />
+          <Post data={data[0]} />
         </div>
       </div>
     </div>

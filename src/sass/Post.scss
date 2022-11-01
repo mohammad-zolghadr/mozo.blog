@@ -1,0 +1,50 @@
+@import "./mixins";
+@import "./variables";
+
+.postContainer{
+
+    flex : 1 1 300px;
+    margin: 10px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba($color: $textThree, $alpha: 0.7);
+
+    
+    img{
+        width: 100%;
+    }
+    
+    h3{
+        color: $primaryColor;
+        font-size: 1.1rem;
+        font-family: bf;
+    }
+    
+    p{
+        font-size: 0.8rem;
+        color: $textTwo;
+        text-align: justify;
+        margin-top: 10px;
+    }
+    
+    &>div{
+        padding: 10px 20px;
+
+        &>div{
+            @include displayFlex(between);
+            margin-top: 10px;
+        }
+    }
+
+    span{
+        font-size: 0.7rem;
+        color: $textThree;    
+    }
+
+    button{
+        margin-top: 15px;
+        background-color: $primaryColor;
+    }
+
+
+}

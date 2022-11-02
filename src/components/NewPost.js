@@ -3,6 +3,8 @@ import React, { useState } from "react";
 // firebase
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { fStorage } from "../firebase-config";
+import { ref, uploadBytes } from "firebase/storage";
 
 // styles & icons
 import style from "../sass/NewPost.scss";
@@ -10,6 +12,9 @@ import voiceIco from "../assets/images/voice-ico.png";
 
 // Function
 import { TextKey, getText } from "../Text";
+
+// components
+import Loading from "./Loading";
 
 const NewPost = () => {
   const key = new TextKey();
@@ -19,6 +24,9 @@ const NewPost = () => {
     image: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  // const [previewImage, setPreviewImage] = useState("");
+
   const inputHandler = (e) => {
     setInputValue({
       ...inputValue,
@@ -27,23 +35,51 @@ const NewPost = () => {
     });
   };
 
+  // const loadUploadedImageToUi = () => {
+  //   const reader = new FileReader();
+  //   const url = reader.readAsDataURL(inputValue.image);
+  //   reader.onloadend = () => {
+  //     console.log(reader.result);
+  //     setPreviewImage(reader.result);
+  //   };
+  //   console.log(url);
+  // };
+
   const postCollectionRef = collection(db, "posts");
-  const sendData = async (event) => {
+  const sendData = (event) => {
     event.preventDefault();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    // console.log(userInfo.isAuth);
     if (userInfo.isAuth) {
-      await addDoc(postCollectionRef, {
-        ...inputValue,
-        author: userInfo.name,
-        email: userInfo.email,
-        date: new Date().toLocaleDateString("fa-IR"),
+      setIsLoading(true);
+      if (inputValue.image == null) return;
+      const imageRef = ref(fStorage, `postImage/${inputValue.image.name}`);
+      uploadBytes(imageRef, inputValue.image).then((res) => {
+        addDoc(postCollectionRef, {
+          title: inputValue.title,
+          body: inputValue.body,
+          image: res.metadata.fullPath,
+          author: userInfo.name,
+          email: userInfo.email,
+          date: new Date().toLocaleDateString("fa-IR"),
+        }).then(() => {
+          setIsLoading(false);
+          // show Successfull Message
+        });
       });
     } else alert("You Must Login First!");
   };
 
+  const uploadImage = () => {
+    if (inputValue.image == null) return;
+    const imageRef = ref(fStorage, `postImage/${inputValue.image.name}`);
+    uploadBytes(imageRef, inputValue.image).then((res) => {
+      return res.metadata.fullPath;
+    });
+  };
+
   return (
     <div className="cContainer">
+      {isLoading && <Loading />}
       <form onSubmit={sendData} className="newPostFormContainer">
         <input
           name="title"
@@ -71,7 +107,12 @@ const NewPost = () => {
             type="file"
             onChange={inputHandler}
           />
-          <button>{getText(key.NP_Btn_Login)}</button>
+          {/* {inputValue.image && (
+            <>
+              {loadUploadedImageToUi}
+              <img src={previewImage} />
+            </>
+          )} */}
         </div>
         <button type="submit" className="newPostSubmit">
           {getText(key.NP_Btn_Post)}

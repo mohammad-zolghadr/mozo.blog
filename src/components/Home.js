@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // styles & icons
@@ -10,6 +10,10 @@ import Post from "./Post";
 
 // Function
 import { TextKey, getText } from "../Text";
+
+// Firebase
+import { getDocs, collection, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 const data = [
   {
@@ -25,6 +29,18 @@ const data = [
 const Home = () => {
   let navigate = useNavigate();
   const key = new TextKey();
+  const [postsList, setPostsList] = useState([]);
+  const postsCollectionRef = collection(db, "posts");
+
+  useEffect(() => {
+    getPostsList();
+  }, []);
+
+  const getPostsList = async () => {
+    const data = await getDocs(postsCollectionRef);
+    setPostsList(data.docs.map((doc) => ({ ...doc.data() })));
+  };
+
   return (
     <div>
       <div className="homeContainer">
@@ -54,11 +70,16 @@ const Home = () => {
         </div>
       </div>
       <div className="homePostsContainer">
-        <h3>{getText(key.HL_Title_LastBlog)}</h3>
+        <h3
+          onClick={() => {
+            console.log(postsList);
+          }}
+        >
+          {getText(key.HL_Title_LastBlog)}
+        </h3>
         <div>
-          <Post data={data[0]} />
-          <Post data={data[0]} />
-          <Post data={data[0]} />
+          {postsList &&
+            postsList.map((el) => <Post key={el.image} data={el} />)}
         </div>
       </div>
     </div>

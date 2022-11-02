@@ -28,7 +28,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const userInfoLocalStorage = JSON.parse(localStorage.getItem("userInfo"));
-    setUserInfo(userInfoLocalStorage);
+    userInfoLocalStorage && setUserInfo(userInfoLocalStorage);
   }, []);
 
   const signInHandler = () => {

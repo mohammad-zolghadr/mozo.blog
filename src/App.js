@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 // components
@@ -8,11 +8,38 @@ import NewPost from "./components/NewPost";
 import Blog from "./components/Blog";
 import AboutMe from "./components/AboutMe";
 import NotFound from "./components/NotFound";
+import GlobalMessage from "./components/GlobalMessage";
+
+// Function
+import { getText, TextKey } from "./Text";
+
+import vpnIcon from "./assets/images/vpn.png";
 
 const App = () => {
+  const key = new TextKey();
+  const [isShowingGlobalMessage, setIsShowingGlobalMessage] = useState();
+
+  useEffect(() => {
+    const showVpnOn = JSON.parse(localStorage.getItem("showVpnOn"));
+    if (showVpnOn != null) setIsShowingGlobalMessage(showVpnOn);
+    else {
+      setIsShowingGlobalMessage(true);
+      localStorage.setItem("showVpnOn", JSON.stringify(false));
+    }
+  }, []);
+
   return (
     <div>
       <Navbar />
+      {isShowingGlobalMessage && (
+        <GlobalMessage
+          data={{
+            message: getText(key.TurnOnVPN),
+            image: vpnIcon,
+            closeGlobalMessage: setIsShowingGlobalMessage,
+          }}
+        />
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new-post" element={<NewPost />} />

@@ -1,4 +1,7 @@
 class TextKey {
+  // App
+  TurnOnVPN = "Turn_On_VPN";
+
   // Navbar
   NB_Main_Title = "NB_Main_Title";
   NB_MenuResponsive = "NB_Menu_Responsive";
@@ -40,6 +43,11 @@ const getText = (whichTextNeed) => {
   // Must Have a condition to show Persian or English
 
   switch (whichTextNeed) {
+    // App
+    case key.TurnOnVPN:
+      return `دوست ایرانی من 
+به دلیل استفاده این وبسایت از فایربیس، برای ورود به اکانت، پست گذاشتن، دیدن پست های جدید و... باید VPN خودت رو روشن کنی`;
+
     // Navbar ===================
     case key.NB_Main_Title:
       return "مود بلاگ";

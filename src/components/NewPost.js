@@ -106,7 +106,7 @@ const NewPost = () => {
   return (
     <div className="cContainer">
       <ToastContainer position="bottom-left" autoClose={4000} />
-      {isLoading && <Loading />}
+      {isLoading && <Loading showFullScreen={true} />}
       <form onSubmit={sendData} className="newPostFormContainer">
         <input
           name="title"

@@ -1,6 +1,7 @@
 class TextKey {
   // App
   TurnOnVPN = "Turn_On_VPN";
+  Ok = "Ok";
 
   // Navbar
   NB_Main_Title = "NB_Main_Title";
@@ -47,7 +48,8 @@ const getText = (whichTextNeed) => {
     case key.TurnOnVPN:
       return `دوست ایرانی من 
 به دلیل استفاده این وبسایت از فایربیس، برای ورود به اکانت، پست گذاشتن، دیدن پست های جدید و... باید VPN خودت رو روشن کنی`;
-
+    case key.Ok:
+      return "باشه";
     // Navbar ===================
     case key.NB_Main_Title:
       return "مود بلاگ";

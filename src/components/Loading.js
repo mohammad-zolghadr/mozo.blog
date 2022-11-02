@@ -2,11 +2,21 @@ import React from "react";
 
 import style from "../sass/Loading.scss";
 
-const Loading = () => {
+const Loading = (props) => {
+  const { showFullScreen } = props;
+
   return (
-    <div className="loadingCircleContainer">
-      <div className="loadingCircle"></div>
-    </div>
+    <>
+      {showFullScreen ? (
+        <div className="loadingCircleContainer">
+          <div className="loadingCircle"></div>
+        </div>
+      ) : (
+        <div>
+          <div className="loadingCircle"></div>
+        </div>
+      )}
+    </>
   );
 };
 

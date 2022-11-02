@@ -17,15 +17,19 @@
     height: 100px;
     border: 8px solid $inputBg;
     border-radius: 50%;
-    border-bottom: 8px solid transparent;
-    animation:rotating 1s linear infinite ;
+    animation:rotating 2s forwards infinite alternate-reverse ;
 }
 
 @keyframes rotating{
     from{
         transform: rotate(0);
+        border: 8px solid $inputBg;
+        border-bottom: 8px solid transparent;
+        
     }
     to{
-        transform: rotate(360deg);
+        transform: rotate(1440deg);
+        border: 8px solid $primaryColor;
+        border-left: 8px solid transparent;
     }
 }

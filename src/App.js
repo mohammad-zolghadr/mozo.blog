@@ -20,6 +20,7 @@ const App = () => {
   const [isShowingGlobalMessage, setIsShowingGlobalMessage] = useState();
 
   useEffect(() => {
+    // only show message in First Time
     const showVpnOn = JSON.parse(localStorage.getItem("showVpnOn"));
     if (showVpnOn != null) setIsShowingGlobalMessage(showVpnOn);
     else {

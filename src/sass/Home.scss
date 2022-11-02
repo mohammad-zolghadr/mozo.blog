@@ -1,6 +1,11 @@
 @import "./variables";
 @import "./mixins";
 
+.homeWrapper{
+    margin-bottom: $topMargin*2;
+}
+
+
 .homeContainer{
       
     padding-top: $topMargin;
@@ -76,6 +81,8 @@
 
 
 .homePostsContainer{
+    width: 95%;
+    margin: auto;
     margin-top: 20px;
     
     h3 {

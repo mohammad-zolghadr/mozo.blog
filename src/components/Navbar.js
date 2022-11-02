@@ -52,6 +52,7 @@ const Navbar = () => {
     signOut(auth).then(() => {
       localStorage.clear();
       setUserInfo({ isAuth: false, id: "", name: "", email: "", image: "" });
+      navHandlerResponsive();
     });
   };
 

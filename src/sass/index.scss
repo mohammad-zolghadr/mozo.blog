@@ -27,3 +27,26 @@ button {
   margin: auto;
   margin-top: $topMargin;
 }
+
+.Toastify__toast-body{
+  font-family: bf;
+  font-size: 0.8rem;
+}
+
+input{
+  color: $textTwo;
+}
+
+
+::placeholder { 
+  color: $textThree;
+  opacity: 0.5;
+}
+:-ms-input-placeholder {
+  color: $textThree;
+  opacity: 0.5;
+}
+::-ms-input-placeholder {
+  color: $textThree;
+  opacity: 0.5;
+}

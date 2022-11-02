@@ -9,6 +9,8 @@ import { ref, uploadBytes } from "firebase/storage";
 // styles & icons
 import style from "../sass/NewPost.scss";
 import voiceIco from "../assets/images/voice-ico.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Function
 import { TextKey, getText } from "../Text";
@@ -35,6 +37,9 @@ const NewPost = () => {
     });
   };
 
+  const successToast = (message) => toast.success(message);
+  const errorToast = (message) => toast.error(message);
+
   // const loadUploadedImageToUi = () => {
   //   const reader = new FileReader();
   //   const url = reader.readAsDataURL(inputValue.image);
@@ -49,24 +54,39 @@ const NewPost = () => {
   const sendData = (event) => {
     event.preventDefault();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (userInfo.isAuth) {
+    if (userInfo && userInfo.isAuth) {
       setIsLoading(true);
       if (inputValue.image == null) return;
       const imageRef = ref(fStorage, `postImage/${inputValue.image.name}`);
-      uploadBytes(imageRef, inputValue.image).then((res) => {
-        addDoc(postCollectionRef, {
-          title: inputValue.title,
-          body: inputValue.body,
-          image: res.metadata.fullPath,
-          author: userInfo.name,
-          email: userInfo.email,
-          date: new Date().toLocaleDateString("fa-IR"),
-        }).then(() => {
+      uploadBytes(imageRef, inputValue.image)
+        .then((res) => {
+          addDoc(postCollectionRef, {
+            title: inputValue.title,
+            body: inputValue.body,
+            image: res.metadata.fullPath,
+            author: userInfo.name,
+            email: userInfo.email,
+            date: new Date().toLocaleDateString("fa-IR"),
+          })
+            .then(() => {
+              setIsLoading(false);
+              setInputValue({
+                title: "",
+                body: "",
+                image: "",
+              });
+              successToast(getText(key.NP_SuccessPost));
+            })
+            .catch(() => {
+              setIsLoading(false);
+              errorToast(getText(key.NP_ErrorPost));
+            });
+        })
+        .catch((err) => {
           setIsLoading(false);
-          // show Successfull Message
+          errorToast(getText(key.NP_ErrorPost));
         });
-      });
-    } else alert("You Must Login First!");
+    } else errorToast(getText(key.NP_ErrorAuth));
   };
 
   const uploadImage = () => {
@@ -79,6 +99,7 @@ const NewPost = () => {
 
   return (
     <div className="cContainer">
+      <ToastContainer position="bottom-left" autoClose={4000} />
       {isLoading && <Loading />}
       <form onSubmit={sendData} className="newPostFormContainer">
         <input

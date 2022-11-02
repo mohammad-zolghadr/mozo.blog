@@ -6,7 +6,7 @@ import { getText, TextKey } from "../Text";
 
 // firebase
 import { fStorage } from "../firebase-config";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
 
 const Post = (props) => {
   const { image, title, body, author, date, link } = props.data;
@@ -14,8 +14,7 @@ const Post = (props) => {
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
 
-  const storage = getStorage();
-  const urlNeedToDownload = ref(storage, image);
+  const urlNeedToDownload = ref(fStorage, image);
 
   getDownloadURL(urlNeedToDownload).then((url) => {
     setImageUrl(url);

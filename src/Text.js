@@ -26,6 +26,9 @@ class TextKey {
   NP_Btn_Login = "NewPost_Btn_Login";
   NP_Btn_Post = "NewPost_Btn_Post";
   NP_IN_File = "NewPost_Input_File";
+  NP_SuccessPost = "NP_Success_Post";
+  NP_ErrorAuth = "NP_Error_Auth";
+  NP_ErrorPost = "NP_Error_Post";
 }
 
 const getText = (whichTextNeed) => {
@@ -85,6 +88,12 @@ const getText = (whichTextNeed) => {
       return "ورود به حساب کاربری";
     case key.NP_Btn_Post:
       return "انتشار محتوا";
+    case key.NP_SuccessPost:
+      return "محتوای جدیدت با موفقیت منتشر شد";
+    case key.NP_ErrorPost:
+      return `یه مشکلی پیش اومده \n اگه میتونی با VPN تست کن`;
+    case key.NP_ErrorAuth:
+      return "برای انتشار محتوا، اول لاگین کن";
     // ===================
 
     default:

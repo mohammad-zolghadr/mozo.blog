@@ -1,0 +1,31 @@
+@import "./variables";
+@import "./mixins";
+
+.loadingCircleContainer{
+    width: 100%;
+    height: 100%;
+    background-color: $headerColor;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    @include displayFlex(center);
+    flex-direction: column;
+}
+.loadingCircle{
+    width: 100px;
+    height: 100px;
+    border: 8px solid $inputBg;
+    border-radius: 50%;
+    border-bottom: 8px solid transparent;
+    animation:rotating 1s linear infinite ;
+}
+
+@keyframes rotating{
+    from{
+        transform: rotate(0);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

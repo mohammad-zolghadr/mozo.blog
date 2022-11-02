@@ -29,6 +29,9 @@ class TextKey {
   NP_SuccessPost = "NP_Success_Post";
   NP_ErrorAuth = "NP_Error_Auth";
   NP_ErrorPost = "NP_Error_Post";
+  NP_ErrorFillFields = "NP_Error_Fill_Fields";
+  NP_ErrorImageSize = "NP_Error_Image_Size";
+  NP_MaximumPicSize = "NP_Maximum_Picture_Size";
 }
 
 const getText = (whichTextNeed) => {
@@ -94,6 +97,12 @@ const getText = (whichTextNeed) => {
       return `یه مشکلی پیش اومده \n اگه میتونی با VPN تست کن`;
     case key.NP_ErrorAuth:
       return "برای انتشار محتوا، اول لاگین کن";
+    case key.NP_ErrorFillFields:
+      return "همه فیلدها رو پر کن";
+    case key.NP_ErrorImageSize:
+      return "سایز تصویر نباید بیشتر از 200 کیلوبایت باشه";
+    case key.NP_MaximumPicSize:
+      return "حداکثر حجم تصویر 200 کیلوبایت";
     // ===================
 
     default:

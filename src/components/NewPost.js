@@ -27,7 +27,7 @@ const NewPost = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  // const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
 
   const inputHandler = (e) => {
     setInputValue({
@@ -35,29 +35,43 @@ const NewPost = () => {
       [e.target.name]:
         e.target.name !== "image" ? e.target.value : e.target.files[0],
     });
+    console.log(e.target.files[0]);
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setPreviewImage(reader.result);
+      });
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const successToast = (message) => toast.success(message);
   const errorToast = (message) => toast.error(message);
 
-  // const loadUploadedImageToUi = () => {
-  //   const reader = new FileReader();
-  //   const url = reader.readAsDataURL(inputValue.image);
-  //   reader.onloadend = () => {
-  //     console.log(reader.result);
-  //     setPreviewImage(reader.result);
-  //   };
-  //   console.log(url);
-  // };
-
   const postCollectionRef = collection(db, "posts");
   const sendData = (event) => {
     event.preventDefault();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    // all field Filled
+    if (!inputValue.title || !inputValue.body || !inputValue.image) {
+      errorToast(getText(key.NP_ErrorFillFields));
+      return;
+    }
+    // maximum image size 200KB
+    if (+inputValue.image.size / 1000 > 200) {
+      errorToast(getText(key.NP_ErrorImageSize));
+      return;
+    }
+
+    // user is Auth and Post
     if (userInfo && userInfo.isAuth) {
       setIsLoading(true);
       if (inputValue.image == null) return;
-      const imageRef = ref(fStorage, `postImage/${inputValue.image.name}`);
+      const imageRef = ref(
+        fStorage,
+        `postImage/${inputValue.image.name + new Date().toISOString()}`
+      );
       uploadBytes(imageRef, inputValue.image)
         .then((res) => {
           addDoc(postCollectionRef, {
@@ -89,14 +103,6 @@ const NewPost = () => {
     } else errorToast(getText(key.NP_ErrorAuth));
   };
 
-  const uploadImage = () => {
-    if (inputValue.image == null) return;
-    const imageRef = ref(fStorage, `postImage/${inputValue.image.name}`);
-    uploadBytes(imageRef, inputValue.image).then((res) => {
-      return res.metadata.fullPath;
-    });
-  };
-
   return (
     <div className="cContainer">
       <ToastContainer position="bottom-left" autoClose={4000} />
@@ -109,7 +115,7 @@ const NewPost = () => {
           onChange={inputHandler}
           placeholder={getText(key.NP_PH_Title)}
         />
-        <div>
+        <div className="newPostTextAreaContainer">
           <textarea
             name="body"
             value={inputValue.body}
@@ -127,13 +133,14 @@ const NewPost = () => {
             id="file-upload"
             type="file"
             onChange={inputHandler}
+            accept="image/png, image/jpeg"
           />
-          {/* {inputValue.image && (
-            <>
-              {loadUploadedImageToUi}
-              <img src={previewImage} />
-            </>
-          )} */}
+          {inputValue.image && (
+            <img className="newPostImagePreview" src={previewImage} />
+          )}
+          <span className="newPostImageCondition">
+            {getText(key.NP_MaximumPicSize)}
+          </span>
         </div>
         <button type="submit" className="newPostSubmit">
           {getText(key.NP_Btn_Post)}

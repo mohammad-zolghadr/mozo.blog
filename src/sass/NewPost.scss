@@ -22,7 +22,7 @@
         min-height: 400px;
     }
 
-    img{
+    .newPostTextAreaContainer img{
         width: 26px;
         position: absolute;
         top: 15px;
@@ -40,6 +40,9 @@
 }
 
 .newPostFileChooser{
+    @include displayFlex(center);
+    flex-direction: column;
+    row-gap: 15px;
 
     .newPostFileUpload{
         width: 170px;
@@ -54,9 +57,19 @@
         display: none;
     }
 
-    button{
-        padding: 10px 20px;
+    .newPostImagePreview{
+        width: 250px;
+        height: 100px;
+        object-fit: cover;
+        box-shadow: 0 0 5px rgba($color: $headerColor, $alpha: 0.3);
+        border-radius: 15px;
     }
+
+    
+.newPostImageCondition{
+    font-size: 0.7rem;
+    color: $textThree;
+}
 }
 
 .newPostSubmit{
@@ -67,6 +80,8 @@
     color: $textFive;
     font-size: 1rem;
 }
+
+
 
 @media (min-width : 768px){
     .newPostFormContainer{

@@ -81,6 +81,7 @@ const NewPost = () => {
             author: userInfo.name,
             email: userInfo.email,
             date: new Date().toLocaleDateString("fa-IR"),
+            category: "خوشحال",
           })
             .then(() => {
               setIsLoading(false);

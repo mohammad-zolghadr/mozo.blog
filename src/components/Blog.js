@@ -15,27 +15,26 @@ import { db } from "../firebase-config";
 
 const Blog = () => {
   const [categorySelected, setCategorySelected] = useState(0);
-  const categories = [
-    "همه",
-    "غمگین",
-    "خوشحال",
-    "عاشقانه",
-    "انرژی مثبت",
-    "انگیزشی",
-    "مناسبتی",
-    "فاز سنگین",
-  ];
   const key = new TextKey();
+  const [categories, setCategories] = useState();
   const [postsList, setPostsList] = useState();
   const postsCollectionRef = collection(db, "posts");
+  const moodsCollectionRef = collection(db, "moods");
 
   useEffect(() => {
     getPostsList();
+    getMoodsList();
   }, []);
 
   const getPostsList = async () => {
     const data = await getDocs(postsCollectionRef);
     setPostsList(data.docs.map((doc) => ({ ...doc.data() })));
+  };
+
+  const getMoodsList = async () => {
+    let data = await getDocs(moodsCollectionRef);
+    const arrayData = data.docs.map((doc) => ({ ...doc.data() }));
+    setCategories(arrayData.map((el) => Object.values(el)[0]));
   };
 
   const changeCategory = (e) => {
@@ -48,25 +47,26 @@ const Blog = () => {
   return (
     <div className="cContainer">
       <div className="bp_categoriesContaner">
-        {categories.map((el, index) => {
-          if (index !== categorySelected) {
-            return (
-              <span onClick={changeCategory} key={index}>
-                {el}
-              </span>
-            );
-          } else {
-            return (
-              <span
-                className="bp_categorySelected"
-                onClick={changeCategory}
-                key={index}
-              >
-                {el}
-              </span>
-            );
-          }
-        })}
+        {categories &&
+          categories.map((el, index) => {
+            if (index !== categorySelected) {
+              return (
+                <span onClick={changeCategory} key={index}>
+                  {el}
+                </span>
+              );
+            } else {
+              return (
+                <span
+                  className="bp_categorySelected"
+                  onClick={changeCategory}
+                  key={index}
+                >
+                  {el}
+                </span>
+              );
+            }
+          })}
       </div>
       <div className="homePostsContainer">
         <div>

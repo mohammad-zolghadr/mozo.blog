@@ -36,6 +36,11 @@ class TextKey {
   NP_ErrorFillFields = "NP_Error_Fill_Fields";
   NP_ErrorImageSize = "NP_Error_Image_Size";
   NP_MaximumPicSize = "NP_Maximum_Picture_Size";
+
+  // About Me
+  AM_NAME = "AM_MY_NAME";
+  AM_SPECIALTY = "AM_SPECIALTY_FRONT_END";
+  AM_SEE_MY_WEB = "AM_SEE_MY_PORTFOLIO";
 }
 
 const getText = (whichTextNeed) => {
@@ -114,6 +119,16 @@ const getText = (whichTextNeed) => {
     case key.NP_MaximumPicSize:
       return "حداکثر حجم تصویر 200 کیلوبایت";
     // ===================
+
+    // About Me =================
+    case key.AM_NAME:
+      return "محمد ذوالقدر";
+    case key.AM_SPECIALTY:
+      return "توسعه دهنده فرانت‌‌اند | مدرس وب";
+    case key.AM_SEE_MY_WEB:
+      return "مشاهده وب سایت من";
+
+    // =====================
 
     default:
       break;

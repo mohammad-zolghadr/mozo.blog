@@ -8,34 +8,21 @@ import Loading from "./Loading";
 
 // Function
 import { TextKey, getText } from "../Text";
-
-// Firebase
-import { getDocs, collection, doc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { getPostsList, getMoodsList } from "../requests";
 
 const Blog = () => {
   const [categorySelected, setCategorySelected] = useState(0);
   const key = new TextKey();
   const [categories, setCategories] = useState();
   const [postsList, setPostsList] = useState();
-  const postsCollectionRef = collection(db, "posts");
-  const moodsCollectionRef = collection(db, "moods");
 
   useEffect(() => {
-    getPostsList();
-    getMoodsList();
+    async function getData() {
+      setPostsList(await getPostsList());
+      setCategories(await getMoodsList());
+    }
+    getData();
   }, []);
-
-  const getPostsList = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setPostsList(data.docs.map((doc) => ({ ...doc.data() })));
-  };
-
-  const getMoodsList = async () => {
-    let data = await getDocs(moodsCollectionRef);
-    const arrayData = data.docs.map((doc) => ({ ...doc.data() }));
-    setCategories(arrayData.map((el) => Object.values(el)[0]));
-  };
 
   const changeCategory = (e) => {
     const index = categories.findIndex(

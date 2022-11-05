@@ -11,25 +11,19 @@ import Loading from "./Loading";
 
 // Function
 import { TextKey, getText } from "../Text";
-
-// Firebase
-import { getDocs, collection, doc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { getPostsList } from "../requests";
 
 const Home = () => {
   let navigate = useNavigate();
   const key = new TextKey();
   const [postsList, setPostsList] = useState();
-  const postsCollectionRef = collection(db, "posts");
 
   useEffect(() => {
-    getPostsList();
+    async function getData() {
+      setPostsList(await getPostsList());
+    }
+    getData();
   }, []);
-
-  const getPostsList = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setPostsList(data.docs.map((doc) => ({ ...doc.data() })));
-  };
 
   return (
     <div className="homeWrapper">

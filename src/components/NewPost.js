@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 
-// firebase
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase-config";
-import { fStorage } from "../firebase-config";
-import { ref, uploadBytes } from "firebase/storage";
-
 // styles & icons
 import style from "../sass/NewPost.scss";
 import voiceIco from "../assets/images/voice-ico.png";
@@ -14,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Function
 import { TextKey, getText } from "../Text";
+import { sendPost } from "../requests";
 
 // components
 import Loading from "./Loading";
@@ -35,8 +30,7 @@ const NewPost = () => {
       [e.target.name]:
         e.target.name !== "image" ? e.target.value : e.target.files[0],
     });
-    console.log(e.target.files[0]);
-    if (e.target.files[0]) {
+    if (e.target.name === "image" && e.target.files[0]) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         setPreviewImage(reader.result);
@@ -48,7 +42,6 @@ const NewPost = () => {
   const successToast = (message) => toast.success(message);
   const errorToast = (message) => toast.error(message);
 
-  const postCollectionRef = collection(db, "posts");
   const sendData = (event) => {
     event.preventDefault();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -68,39 +61,18 @@ const NewPost = () => {
     if (userInfo && userInfo.isAuth) {
       setIsLoading(true);
       if (inputValue.image == null) return;
-      const imageRef = ref(
-        fStorage,
-        `postImage/${inputValue.image.name + new Date().toISOString()}`
+      sendPost(
+        inputValue.image,
+        inputValue.title,
+        inputValue.body,
+        userInfo.name,
+        userInfo.email,
+        "غمگین",
+        successToast,
+        errorToast,
+        setIsLoading,
+        setInputValue
       );
-      uploadBytes(imageRef, inputValue.image)
-        .then((res) => {
-          addDoc(postCollectionRef, {
-            title: inputValue.title,
-            body: inputValue.body,
-            image: res.metadata.fullPath,
-            author: userInfo.name,
-            email: userInfo.email,
-            date: new Date().toLocaleDateString("fa-IR"),
-            category: "خوشحال",
-          })
-            .then(() => {
-              setIsLoading(false);
-              setInputValue({
-                title: "",
-                body: "",
-                image: "",
-              });
-              successToast(getText(key.NP_SuccessPost));
-            })
-            .catch(() => {
-              setIsLoading(false);
-              errorToast(getText(key.NP_ErrorPost));
-            });
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          errorToast(getText(key.NP_ErrorPost));
-        });
     } else errorToast(getText(key.NP_ErrorAuth));
   };
 

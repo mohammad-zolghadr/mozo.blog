@@ -9,7 +9,8 @@ import { fStorage } from "../firebase-config";
 import { ref, getDownloadURL } from "firebase/storage";
 
 const Post = (props) => {
-  const { image, title, body, author, date, link, category } = props.data;
+  const { image, title, body, author, date, category } = props.data;
+  // console.log(props.data);
   let navigate = useNavigate();
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
@@ -36,7 +37,7 @@ const Post = (props) => {
         </div>
         <div>
           <span></span>
-          <button onClick={() => navigate(`/${link}`)}>
+          <button onClick={() => navigate(`/read-more`)}>
             {getText(key.HL_Btn_Continue)}
           </button>
         </div>

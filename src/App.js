@@ -9,6 +9,7 @@ import Blog from "./components/Blog";
 import AboutMe from "./components/AboutMe";
 import NotFound from "./components/NotFound";
 import GlobalMessage from "./components/GlobalMessage";
+import ReadMore from "./components/ReadMore";
 
 // Function
 import { getText, TextKey } from "./Text";
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/new-post" element={<NewPost />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/about-me" element={<AboutMe />} />
+        <Route path="/read-more" element={<ReadMore />} />
         <Route path="/not-Found" element={<NotFound />} />
         <Route path="/*" element={<Navigate to="/not-found" />} />
       </Routes>

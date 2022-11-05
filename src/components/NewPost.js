@@ -12,6 +12,7 @@ import { sendPost } from "../requests";
 
 // components
 import Loading from "./Loading";
+import MoodsList from "./MoodsList";
 
 const NewPost = () => {
   const key = new TextKey();
@@ -20,6 +21,7 @@ const NewPost = () => {
     body: "",
     image: "",
   });
+  const [mood, setMood] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
@@ -67,7 +69,7 @@ const NewPost = () => {
         inputValue.body,
         userInfo.name,
         userInfo.email,
-        "غمگین",
+        mood,
         successToast,
         errorToast,
         setIsLoading,
@@ -115,6 +117,7 @@ const NewPost = () => {
             {getText(key.NP_MaximumPicSize)}
           </span>
         </div>
+        <MoodsList mood={setMood} />
         <button type="submit" className="newPostSubmit">
           {getText(key.NP_Btn_Post)}
         </button>

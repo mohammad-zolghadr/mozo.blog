@@ -1,60 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-import style from "../sass/Blog.scss";
-
 // components
 import Post from "./Post";
 import Loading from "./Loading";
+import MoodsList from "./MoodsList";
 
 // Function
-import { TextKey, getText } from "../Text";
-import { getPostsList, getMoodsList } from "../requests";
+import { getPostsList } from "../requests";
 
 const Blog = () => {
-  const [categorySelected, setCategorySelected] = useState(0);
-  const key = new TextKey();
-  const [categories, setCategories] = useState();
+  const [mood, setMood] = useState();
   const [postsList, setPostsList] = useState();
 
   useEffect(() => {
     async function getData() {
       setPostsList(await getPostsList());
-      setCategories(await getMoodsList());
     }
     getData();
   }, []);
 
-  const changeCategory = (e) => {
-    const index = categories.findIndex(
-      (element) => element === e.target.innerText
-    );
-    setCategorySelected(index);
-  };
-
   return (
     <div className="cContainer">
-      <div className="bp_categoriesContaner">
-        {categories &&
-          categories.map((el, index) => {
-            if (index !== categorySelected) {
-              return (
-                <span onClick={changeCategory} key={index}>
-                  {el}
-                </span>
-              );
-            } else {
-              return (
-                <span
-                  className="bp_categorySelected"
-                  onClick={changeCategory}
-                  key={index}
-                >
-                  {el}
-                </span>
-              );
-            }
-          })}
-      </div>
+      <MoodsList mood={setMood} />
       <div className="homePostsContainer">
         <div>
           {!postsList ? (

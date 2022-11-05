@@ -7,6 +7,7 @@ import { ref, uploadBytes } from "firebase/storage";
 
 const postsCollectionRef = collection(db, "posts");
 const moodsCollectionRef = collection(db, "moods");
+const aboutMeCollectionRef = collection(db, "about_me");
 
 const key = new TextKey();
 
@@ -59,4 +60,9 @@ const sendPost = (
   });
 };
 
-export { getPostsList, getMoodsList, sendPost };
+const getAboutMeData = async () => {
+  const data = await getDocs(aboutMeCollectionRef);
+  return data.docs.map((doc) => ({ ...doc.data() }));
+};
+
+export { getPostsList, getMoodsList, sendPost, getAboutMeData };

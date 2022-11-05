@@ -4,6 +4,12 @@
 
 $imageWidth : 200px;
 
+.AM_loadingContainer{
+    @include displayFlex(center);
+    height: 80vh;
+}
+
+
 .AM_Container{
 
     @include displayFlex(center);
@@ -19,8 +25,10 @@ $imageWidth : 200px;
     img{
         position: absolute;
         width: $imageWidth;
+        height: $imageWidth;
         top: -$imageWidth/2;
         border-radius: 50%;
+        background-color: $blackColor;
         border: 4px solid $blackColor;
     }
 
@@ -45,7 +53,7 @@ $imageWidth : 200px;
         color:$textFour;
         font-size: 0.85rem;
         text-align: justify;
-        margin : 5px 0 25px;
+        margin : 15px 0 25px;
     }
 
     a{
@@ -75,8 +83,6 @@ $imageWidth : 200px;
     
     .AM_Container{
         max-width: 60%;
-        
-        
     }
 }
 
@@ -86,6 +92,7 @@ $imageWidth : 200px;
         max-width: 50%;
         img{
             width: $imageWidth;
+            height: $imageWidth;
             top: -$imageWidth/2;
         }    
         &>div{

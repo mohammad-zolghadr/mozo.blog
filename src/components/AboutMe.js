@@ -1,34 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Styles and Icons
 import style from "../sass/AboutMe.scss";
-import profile from "../assets/images/profile.jpg";
 
 // Functions
-import { getText, TextKey } from "../Text";
+import { getAboutMeData } from "../requests";
+
+// Components
+import Loading from "./Loading";
 
 const AboutMe = () => {
-  const key = new TextKey();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    async function getData() {
+      const fetchedData = await getAboutMeData();
+      setData(fetchedData[0]);
+    }
+    getData();
+  }, []);
+
   return (
     <div className="cContainer">
-      <div className="AM_Container">
-        <img src={profile} />
-        <div>
-          <h4>{getText(key.AM_NAME)}</h4>
-          <span>{getText(key.AM_SPECIALTY)}</span>
+      {!data ? (
+        <div className="AM_loadingContainer">
+          <Loading />
         </div>
-        <hr />
-        <p>
-          سلام امیدوارم خوب باشین همینجوری یه متن تستی الان اینجا مینویسم ولی
-          بعدا کاری میکنم که از سمت سرور بیاد اطلاعاتش
-        </p>
-        <a href="https://mohammadzolghadr.ir" target="_blank">
-          {getText(key.AM_SEE_MY_WEB)}
-        </a>
-        <p className="AM_footer">
-          Made with <span>&#x2764;</span> | Shiraz - 1401
-        </p>
-      </div>
+      ) : (
+        <div className="AM_Container">
+          <img src={data.profile} />
+          <div>
+            <h4>{data.name}</h4>
+            <span>{data.specialty}</span>
+          </div>
+          <hr />
+          <p>{data.description}</p>
+          <a href={data.link} target="_blank">
+            {data.buttonText}
+          </a>
+          <p className="AM_footer">
+            Made with <span>&#x2764;</span> | Shiraz - 1401
+          </p>
+        </div>
+      )}
     </div>
   );
 };

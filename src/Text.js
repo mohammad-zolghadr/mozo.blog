@@ -19,6 +19,7 @@ class TextKey {
   HL_Btn_SeeAllPost = "Home_Landing_Button_See_All_Post";
   HL_Btn_NewPost = "Home_Landing_Button_New_Post";
   HL_Title_LastBlog = "Home_Landing_Title_Last_Blog";
+  HL_EMPTY_LIST = "Home_Landing_EMPTY_LIST";
 
   // Post
   HL_Btn_Continue = "Home_Landing_Btn_Continue";
@@ -86,6 +87,8 @@ const getText = (whichTextNeed) => {
       return "نوشتن پست جدید";
     case key.HL_Title_LastBlog:
       return "مطالب اخیر";
+    case key.HL_EMPTY_LIST:
+      return "نتیجه ای یافت نشد";
     // ===================
 
     // Post Component ===================

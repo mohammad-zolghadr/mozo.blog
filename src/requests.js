@@ -28,7 +28,7 @@ const sendPost = (
   body,
   author,
   email,
-  category,
+  mood = "همه",
   successToast,
   errorToast,
   setIsLoading,
@@ -46,7 +46,7 @@ const sendPost = (
       author,
       email,
       date: new Date().toLocaleDateString("fa-IR"),
-      category,
+      category: mood,
     })
       .then(() => {
         setIsLoading(false);

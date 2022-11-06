@@ -1,0 +1,18 @@
+@import "./mixins";
+@import "./variables";
+
+
+.nfContainer{
+    @include displayFlex(center);
+    flex-direction: column;
+    height: 100vh - 15;
+
+    img{
+        width : 400px;
+    }
+
+    p{
+        font-family: bf;
+        color: $textThree;
+    }
+}

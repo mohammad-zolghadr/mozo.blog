@@ -15,41 +15,70 @@ import listEmpty from "../assets/images/search_empty.png";
 
 const Blog = () => {
   const key = new TextKey();
-  const [mood, setMood] = useState();
+  const [mood, setMood] = useState("همه");
   const [postsList, setPostsList] = useState([]);
-  const [lastPostFetched, setLastPostFetched] = useState(0);
+  const emptyLastPostFetched = [
+    { mood: "همه", count: 0 },
+    { mood: "انرژی مثبت", count: 0 },
+    { mood: "فاز سنگین", count: 0 },
+    { mood: "انگیزشی", count: 0 },
+    { mood: "غمگین", count: 0 },
+    { mood: "عاشقانه", count: 0 },
+    { mood: "خوشحال", count: 0 },
+    { mood: "مناسبتی", count: 0 },
+    { mood: "مود", count: 0 },
+  ];
+  const [lastPostFetched, setLastPostFetched] = useState(emptyLastPostFetched);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const countPostFetchPerRequest = 2;
+  const countPostFetchPerRequest = 3;
 
-  async function getData(type) {
+  const getLastPostFetchedWithinMood = () => {
+    return lastPostFetched.find((element) => element.mood === mood);
+  };
+  const setLastPostFetchedWithinMood = (value) => {
+    lastPostFetched.map((element) => {
+      if (element.mood === mood) {
+        setLastPostFetched((prevState) => [
+          ...prevState.filter(
+            (el) => el.mood !== getLastPostFetchedWithinMood().mood
+          ),
+          { mood, count: value },
+        ]);
+      }
+    });
+  };
+
+  async function getData() {
     const fetchedData = await getPostsList(
-      lastPostFetched,
+      getLastPostFetchedWithinMood().count,
       countPostFetchPerRequest,
       mood
     );
-    setIsLoading(false);
-    if (postsList && type === "all")
-      setPostsList([...postsList, ...fetchedData]);
-    else setPostsList(fetchedData);
 
-    const size = await getPostsCount();
-    setPostCollectionSize(size);
+    if (fetchedData.length !== 0) {
+      const offset = fetchedData[fetchedData.length - 1].id + 1;
+      setLastPostFetchedWithinMood(offset);
+
+      getLastPostFetchedWithinMood().count === 0
+        ? setPostsList(fetchedData)
+        : setPostsList([...postsList, ...fetchedData]);
+      const size = await getPostsCount();
+      setPostCollectionSize(size);
+    }
+    setIsLoading(false);
   }
 
   useEffect(() => {
-    getData("all");
-  }, [lastPostFetched]);
-
-  useEffect(() => {
     setIsLoading(true);
-    getData("mood");
+    setLastPostFetched(emptyLastPostFetched);
+    setPostsList([]);
+    getData();
   }, [mood]);
 
   const getMorePost = () => {
     setIsLoading(true);
-    const offset = lastPostFetched + countPostFetchPerRequest + 1;
-    setLastPostFetched(offset);
+    getData();
   };
 
   return (

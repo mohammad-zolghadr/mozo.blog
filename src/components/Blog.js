@@ -17,42 +17,33 @@ const Blog = () => {
   const key = new TextKey();
   const [mood, setMood] = useState();
   const [postsList, setPostsList] = useState([]);
-  const [postsListUnchange, setPostsListUnchange] = useState([]);
   const [lastPostFetched, setLastPostFetched] = useState(0);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const countPostFetchPerRequest = 2;
 
+  async function getData(type) {
+    const fetchedData = await getPostsList(
+      lastPostFetched,
+      countPostFetchPerRequest,
+      mood
+    );
+    setIsLoading(false);
+    if (postsList && type === "all")
+      setPostsList([...postsList, ...fetchedData]);
+    else setPostsList(fetchedData);
+
+    const size = await getPostsCount();
+    setPostCollectionSize(size);
+  }
+
   useEffect(() => {
-    async function getData() {
-      const fetchedData = await getPostsList(
-        lastPostFetched,
-        countPostFetchPerRequest
-      );
-      setIsLoading(false);
-      if (postsList && postsListUnchange) {
-        setPostsList([...postsList, ...fetchedData]);
-        setPostsListUnchange([...postsListUnchange, ...fetchedData]);
-      } else {
-        setPostsList(fetchedData);
-        setPostsListUnchange(fetchedData);
-      }
-      const size = await getPostsCount();
-      console.log(size);
-      setPostCollectionSize(size);
-    }
-    getData();
+    getData("all");
   }, [lastPostFetched]);
 
   useEffect(() => {
-    if (mood) {
-      if (mood === "همه") setPostsList(postsListUnchange);
-      else
-        setPostsList(
-          postsListUnchange.filter((element) => element.category === mood)
-        );
-    }
-    console.log(mood);
+    setIsLoading(true);
+    getData("mood");
   }, [mood]);
 
   const getMorePost = () => {
@@ -75,9 +66,11 @@ const Blog = () => {
           )}
         </div>
         {isLoading && <Loading showFullScreen={false} />}
-        {postsList.length < postCollectionSize && !isLoading && (
-          <button onClick={getMorePost}>مشاهده بیشتر</button>
-        )}
+        {postsList.length < postCollectionSize &&
+          !isLoading &&
+          postsList.length !== 0 && (
+            <button onClick={getMorePost}>مشاهده بیشتر</button>
+          )}
       </div>
     </div>
   );

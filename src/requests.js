@@ -10,6 +10,7 @@ import {
   query,
   startAt,
   getCountFromServer,
+  where,
 } from "firebase/firestore";
 import { db, fStorage } from "./firebase-config";
 import { ref, uploadBytes } from "firebase/storage";
@@ -20,15 +21,25 @@ const aboutMeCollectionRef = collection(db, "about_me");
 
 const key = new TextKey();
 
-const getPostsList = async (startId = 0, limitCount = 3) => {
-  const data = await getDocs(
-    query(
+const getPostsList = async (startId = 0, limitCount = 3, mood = "") => {
+  let customQuery = "";
+  if (mood !== "" && mood !== "همه")
+    customQuery = query(
+      postsCollectionRef,
+      where("category", "==", mood),
+      orderBy("id"),
+      limit(limitCount),
+      startAt(startId)
+    );
+  else
+    customQuery = query(
       postsCollectionRef,
       orderBy("id"),
       limit(limitCount),
       startAt(startId)
-    )
-  );
+    );
+
+  const data = await getDocs(customQuery);
   return data.docs.map((doc) => ({ ...doc.data() }));
 };
 

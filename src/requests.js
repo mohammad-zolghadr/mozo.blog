@@ -1,7 +1,16 @@
 // Function
 import { TextKey, getText } from "./Text";
 // Firebase
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  orderBy,
+  limit,
+  query,
+  startAt,
+  getCountFromServer,
+} from "firebase/firestore";
 import { db, fStorage } from "./firebase-config";
 import { ref, uploadBytes } from "firebase/storage";
 
@@ -11,9 +20,22 @@ const aboutMeCollectionRef = collection(db, "about_me");
 
 const key = new TextKey();
 
-const getPostsList = async () => {
-  const data = await getDocs(postsCollectionRef);
+const getPostsList = async (startId = 0, limitCount = 3) => {
+  const data = await getDocs(
+    query(
+      postsCollectionRef,
+      orderBy("id"),
+      limit(limitCount),
+      startAt(startId)
+    )
+  );
   return data.docs.map((doc) => ({ ...doc.data() }));
+};
+
+const getPostsCount = async () => {
+  const snapshot = await getCountFromServer(postsCollectionRef);
+  const size = snapshot.data().count;
+  return size;
 };
 
 const getMoodsList = async () => {
@@ -65,4 +87,4 @@ const getAboutMeData = async () => {
   return data.docs.map((doc) => ({ ...doc.data() }));
 };
 
-export { getPostsList, getMoodsList, sendPost, getAboutMeData };
+export { getPostsList, getPostsCount, getMoodsList, sendPost, getAboutMeData };

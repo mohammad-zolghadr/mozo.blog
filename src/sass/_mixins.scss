@@ -31,3 +31,35 @@
         justify-content: space-evenly;
     }
 }
+
+
+@mixin postsContainer {
+    width: 95%;
+    margin: auto;
+    margin-top: 20px;
+    
+    
+    .postsListContainer{
+        @include displayFlex(center);
+        width: 80%;
+        margin: auto;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        column-gap: 10px;
+    }
+
+    .postsListEmpty{
+        height: 70vh;
+        @include displayFlex(center);
+        flex-direction: column;
+
+        img{
+            width: 300px;
+        }
+
+        p{
+            font-family: bf;
+            color: $textThree;
+        }
+    }
+}

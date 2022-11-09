@@ -46,8 +46,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/new-post" element={<NewPost />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<ReadMore />} />
         <Route path="/about-me" element={<AboutMe />} />
-        <Route path="/read-more" element={<ReadMore />} />
         <Route path="/not-Found" element={<NotFound />} />
         <Route path="/*" element={<Navigate to="/not-found" />} />
       </Routes>

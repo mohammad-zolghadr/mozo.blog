@@ -56,6 +56,11 @@ const getLastId = async () => {
   return data.docs[0]._document.data.value.mapValue.fields.id;
 };
 
+const getDataWithinId = async (id) => {
+  const data = await getDocs(query(postsCollectionRef, where("id", "==", id)));
+  return data.docs.map((doc) => ({ ...doc.data() }))[0];
+};
+
 const getMoodsList = async () => {
   let data = await getDocs(moodsCollectionRef);
   const arrayData = data.docs.map((doc) => ({ ...doc.data() }));
@@ -137,6 +142,7 @@ export {
   getMoodsList,
   sendPost,
   getAboutMeData,
+  getDataWithinId,
   getLastId,
   mSignUp,
   mSignOut,

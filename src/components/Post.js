@@ -3,10 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import style from "../sass/Post.scss";
 import { getText, TextKey } from "../Text";
-
-// firebase
-import { fStorage } from "../firebase-config";
-import { ref, getDownloadURL } from "firebase/storage";
+import { downloadImage } from "../requests";
 
 const Post = (props) => {
   const { image, title, body, author, date, category, id } = props.data;
@@ -15,11 +12,7 @@ const Post = (props) => {
   const [imageUrl, setImageUrl] = useState();
   const location = useLocation().pathname.split("/")[1];
 
-  const urlNeedToDownload = ref(fStorage, image);
-
-  getDownloadURL(urlNeedToDownload).then((url) => {
-    setImageUrl(url);
-  });
+  downloadImage(image).then((url) => setImageUrl(url));
 
   return (
     <div className="postContainer">

@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db, fStorage, auth, provider } from "./firebase-config";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInWithPopup, signOut } from "firebase/auth";
 
 const postsCollectionRef = collection(db, "posts");
@@ -136,6 +136,14 @@ const mSignOut = async () => {
   });
 };
 
+const downloadImage = async (resId) => {
+  let finalUrl;
+  await getDownloadURL(ref(fStorage, resId)).then((url) => {
+    finalUrl = url;
+  });
+  return finalUrl;
+};
+
 export {
   getPostsList,
   getPostsCount,
@@ -146,4 +154,5 @@ export {
   getLastId,
   mSignUp,
   mSignOut,
+  downloadImage,
 };

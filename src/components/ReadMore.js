@@ -7,12 +7,8 @@ import Loading from "./Loading";
 import style from "../sass/ReadMore.scss";
 
 // Functions
-import { getDataWithinId } from "../requests";
+import { getDataWithinId, downloadImage } from "../requests";
 import { getText, TextKey } from "../Text";
-
-// firebase
-import { fStorage } from "../firebase-config";
-import { ref, getDownloadURL } from "firebase/storage";
 
 const ReadMore = () => {
   const [value, setValue] = useState({
@@ -30,7 +26,7 @@ const ReadMore = () => {
 
   useEffect(() => {
     getDataWithinId(postId).then((res) => {
-      getDownloadURL(ref(fStorage, res.image)).then((url) => {
+      downloadImage(res.image).then((url) => {
         setIsLoading(false);
         setValue({
           title: res.title,

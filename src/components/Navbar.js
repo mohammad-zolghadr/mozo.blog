@@ -4,15 +4,11 @@ import { Link } from "react-router-dom";
 // styles & icons
 import style from "../sass/Navbar.scss";
 import gmailIcon from "../assets/images/gmail-icon.png";
-import logoutIcon from "../assets/images/logout-icon.png";
 import arrowIcon from "../assets/images/arrowMenu.png";
 
 // function
 import { getText, TextKey } from "../Text";
-
-// Firebase
-import { auth, provider } from "../firebase-config";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { mSignUp, mSignOut } from "../requests";
 
 const Navbar = () => {
   const key = new TextKey();
@@ -33,24 +29,12 @@ const Navbar = () => {
 
   const signInHandler = () => {
     closeNavResponsive();
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        const data = {
-          isAuth: true,
-          id: res.user.uid,
-          name: res.user.displayName,
-          email: res.user.email,
-          image: res.user.photoURL,
-        };
-        setUserInfo(data);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-      })
-      .catch((error) => console.log(error));
+    mSignUp().then((data) => setUserInfo(data));
   };
 
   const signOutHandler = () => {
-    signOut(auth).then(() => {
-      localStorage.clear();
+    closeNavResponsive();
+    mSignOut().then(() => {
       setUserInfo({ isAuth: false, id: "", name: "", email: "", image: "" });
       navHandlerResponsive();
     });

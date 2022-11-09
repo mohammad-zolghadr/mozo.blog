@@ -11,16 +11,19 @@ import Loading from "./Loading";
 
 // Function
 import { TextKey, getText } from "../Text";
-import { getPostsList } from "../requests";
+import { getPostsList, getPostsCount } from "../requests";
 
 const Home = () => {
   let navigate = useNavigate();
   const key = new TextKey();
-  const [postsList, setPostsList] = useState();
+  const [postsList, setPostsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getData() {
-      setPostsList(await getPostsList());
+      const fetchedData = await getPostsList(0, 6);
+      setIsLoading(false);
+      setPostsList(fetchedData);
     }
     getData();
   }, []);
@@ -55,12 +58,10 @@ const Home = () => {
       </div>
       <div className="homePostsContainer">
         <h3>{getText(key.HL_Title_LastBlog)}</h3>
-        <div>
-          {!postsList ? (
-            <Loading showFullScreen={false} />
-          ) : (
-            postsList.map((el) => <Post key={el.image} data={el} />)
-          )}
+        <div className="postsListContainer">
+          {isLoading && <Loading />}
+          {postsList &&
+            postsList.map((el) => <Post key={el.image} data={el} />)}
         </div>
       </div>
     </div>

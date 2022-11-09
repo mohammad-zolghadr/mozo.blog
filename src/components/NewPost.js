@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 // styles & icons
 import style from "../sass/NewPost.scss";
@@ -8,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Function
 import { TextKey, getText } from "../Text";
-import { sendPost } from "../requests";
+import { sendPost, getLastId } from "../requests";
 
 // components
 import Loading from "./Loading";
@@ -22,9 +25,45 @@ const NewPost = () => {
     image: "",
   });
   const [mood, setMood] = useState();
-
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  // const [bodyTextHandler, setBodyTextHandler] = useState(false);
+  const bodyText = useRef(null);
+
+  const voiceTypingHandler = () => {
+    if (!listening)
+      SpeechRecognition.startListening({ continuous: true, language: "fa-IR" });
+    else SpeechRecognition.stopListening();
+  };
+
+  useEffect(() => {
+    if (transcript) {
+      // let finalText;
+      // if (bodyTextHandler === "") finalText = transcript;
+      // else {
+      //   finalText = `${bodyTextHandler} ${transcript}`;
+      //   // setBodyTextHandler("");
+      // }
+      // finalText &&
+      // if (!bodyTextHandler) {
+      //   setInputValue({
+      //     ...inputValue,
+      //     body: `${bodyText.current.value} ${transcript}`,
+      //   });
+      //   setBodyTextHandler(true);
+      // } else {
+      setInputValue({
+        ...inputValue,
+        body: transcript,
+      });
+      // }
+    }
+  }, [transcript]);
+
+  // useEffect(() => {
+  //   // setBodyTextHandler(bodyText.current.value);
+  // }, [inputValue.body]);
 
   const inputHandler = (e) => {
     setInputValue({
@@ -32,6 +71,7 @@ const NewPost = () => {
       [e.target.name]:
         e.target.name !== "image" ? e.target.value : e.target.files[0],
     });
+
     if (e.target.name === "image" && e.target.files[0]) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -63,18 +103,23 @@ const NewPost = () => {
     if (userInfo && userInfo.isAuth) {
       setIsLoading(true);
       if (inputValue.image == null) return;
-      sendPost(
-        inputValue.image,
-        inputValue.title,
-        inputValue.body,
-        userInfo.name,
-        userInfo.email,
-        mood,
-        successToast,
-        errorToast,
-        setIsLoading,
-        setInputValue
-      );
+      let id = 0;
+      getLastId().then((res) => {
+        id = +res.integerValue + 1;
+        sendPost(
+          id,
+          inputValue.image,
+          inputValue.title,
+          inputValue.body,
+          userInfo.name,
+          userInfo.email,
+          mood,
+          successToast,
+          errorToast,
+          setIsLoading,
+          setInputValue
+        );
+      });
     } else errorToast(getText(key.NP_ErrorAuth));
   };
 
@@ -93,11 +138,15 @@ const NewPost = () => {
         <div className="newPostTextAreaContainer">
           <textarea
             name="body"
+            ref={bodyText}
             value={inputValue.body}
             onChange={inputHandler}
             placeholder={getText(key.NP_PH_Text)}
           ></textarea>
-          <img src={voiceIco} />
+          <div>
+            {listening && <div></div>}
+            <img src={voiceIco} onClick={voiceTypingHandler} />
+          </div>
         </div>
         <div className="newPostFileChooser">
           <label htmlFor="file-upload" className="newPostFileUpload">

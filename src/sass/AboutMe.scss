@@ -1,0 +1,102 @@
+@import "./variables";
+@import "./mixins";
+
+
+$imageWidth : 200px;
+
+.AM_loadingContainer{
+    @include displayFlex(center);
+    height: 80vh;
+}
+
+
+.AM_Container{
+
+    @include displayFlex(center);
+    width: 90%;
+    margin: $topMargin*3 auto;
+    position: relative;
+    flex-direction: column;
+    background-color: $blackColor;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba($color: $blackColor, $alpha: 0.5);
+    padding: 20px 30px 40px;
+    
+    img{
+        position: absolute;
+        width: $imageWidth;
+        height: $imageWidth;
+        top: -$imageWidth/2;
+        border-radius: 50%;
+        background-color: $blackColor;
+        border: 4px solid $blackColor;
+    }
+
+    &>div{
+        @include displayFlex(center);
+        flex-direction: column;
+        margin-top: $imageWidth / 2 - 10px;
+    }
+
+    h4{
+        font-size: 1.3rem;
+        font-family: bf;
+        color: $textFive;
+    }
+
+    span{
+        color: $textThree;
+        font-size: 0.8rem;
+    }
+
+    p{
+        color:$textFour;
+        font-size: 0.85rem;
+        text-align: justify;
+        margin : 15px 0 25px;
+    }
+
+    a{
+        @include simpleHover;
+        color: $textFive;
+        background-color: $primaryColor;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-family: bf;
+    }
+
+    .AM_footer{
+        font-size: 0.8rem;
+        color: $textThree;
+        position: absolute;
+        bottom: -$topMargin + 10px;
+        span{
+            color: $primaryColor;
+        }
+    }
+
+
+}
+
+@media (min-width:660px){
+    
+    .AM_Container{
+        max-width: 60%;
+    }
+}
+
+@media (min-width:992px){
+    $imageWidth : 250px;
+    .AM_Container{
+        max-width: 50%;
+        img{
+            width: $imageWidth;
+            height: $imageWidth;
+            top: -$imageWidth/2;
+        }    
+        &>div{
+            margin-top: $imageWidth / 2 - 10px;
+        }
+    }
+}

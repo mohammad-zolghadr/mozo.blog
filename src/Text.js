@@ -3,6 +3,9 @@ class TextKey {
   TurnOnVPN = "Turn_On_VPN";
   Ok = "Ok";
 
+  // Not Found
+  NF_Title = "NotFound_Title";
+
   // Navbar
   NB_Main_Title = "NB_Main_Title";
   NB_MenuResponsive = "NB_Menu_Responsive";
@@ -19,6 +22,7 @@ class TextKey {
   HL_Btn_SeeAllPost = "Home_Landing_Button_See_All_Post";
   HL_Btn_NewPost = "Home_Landing_Button_New_Post";
   HL_Title_LastBlog = "Home_Landing_Title_Last_Blog";
+  HL_EMPTY_LIST = "Home_Landing_EMPTY_LIST";
 
   // Post
   HL_Btn_Continue = "Home_Landing_Btn_Continue";
@@ -36,6 +40,11 @@ class TextKey {
   NP_ErrorFillFields = "NP_Error_Fill_Fields";
   NP_ErrorImageSize = "NP_Error_Image_Size";
   NP_MaximumPicSize = "NP_Maximum_Picture_Size";
+
+  // About Me
+  AM_NAME = "AM_MY_NAME";
+  AM_SPECIALTY = "AM_SPECIALTY_FRONT_END";
+  AM_SEE_MY_WEB = "AM_SEE_MY_PORTFOLIO";
 }
 
 const getText = (whichTextNeed) => {
@@ -44,12 +53,21 @@ const getText = (whichTextNeed) => {
   // Must Have a condition to show Persian or English
 
   switch (whichTextNeed) {
-    // App
+    // App ===========
     case key.TurnOnVPN:
       return `دوست ایرانی من 
 به دلیل استفاده این وبسایت از فایربیس، برای ورود به اکانت، پست گذاشتن، دیدن پست های جدید و... باید VPN خودت رو روشن کنی`;
     case key.Ok:
       return "باشه";
+    // =======================
+
+    // Not Found =============
+
+    case key.NF_Title:
+      return "صفحه مورد نظر پیدا نشد";
+
+    // =====================
+
     // Navbar ===================
     case key.NB_Main_Title:
       return "مود بلاگ";
@@ -81,6 +99,8 @@ const getText = (whichTextNeed) => {
       return "نوشتن پست جدید";
     case key.HL_Title_LastBlog:
       return "مطالب اخیر";
+    case key.HL_EMPTY_LIST:
+      return "نتیجه ای یافت نشد";
     // ===================
 
     // Post Component ===================
@@ -114,6 +134,16 @@ const getText = (whichTextNeed) => {
     case key.NP_MaximumPicSize:
       return "حداکثر حجم تصویر 200 کیلوبایت";
     // ===================
+
+    // About Me =================
+    case key.AM_NAME:
+      return "محمد ذوالقدر";
+    case key.AM_SPECIALTY:
+      return "توسعه دهنده فرانت‌‌اند | مدرس وب";
+    case key.AM_SEE_MY_WEB:
+      return "مشاهده وب سایت من";
+
+    // =====================
 
     default:
       break;

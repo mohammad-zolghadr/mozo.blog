@@ -81,25 +81,12 @@
 
 
 .homePostsContainer{
-    width: 95%;
-    margin: auto;
-    margin-top: 20px;
-    
+    @include postsContainer; 
     h3 {
         font-family: bf;
         font-size: 1.5rem;
         color: $textTwo;
     }
-    
-    &>div{
-        @include displayFlex(center);
-        width: 80%;
-        margin: auto;
-        margin-top: 20px;
-        flex-wrap: wrap;
-        column-gap: 10px;
-    }
-
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import style from "../sass/Post.scss";
 import { getText, TextKey } from "../Text";
@@ -13,6 +13,7 @@ const Post = (props) => {
   let navigate = useNavigate();
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
+  const location = useLocation().pathname.split("/")[1];
 
   const urlNeedToDownload = ref(fStorage, image);
 
@@ -39,7 +40,12 @@ const Post = (props) => {
         </div>
         <div>
           <span></span>
-          <button onClick={() => navigate(`blog/${id}`)}>
+          <button
+            onClick={() => {
+              if (location && location === "blog") navigate(`${id}`);
+              else navigate(`blog/${id}`);
+            }}
+          >
             {getText(key.HL_Btn_Continue)}
           </button>
         </div>

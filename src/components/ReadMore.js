@@ -21,23 +21,24 @@ const ReadMore = () => {
   const postId = +location[location.length - 1];
 
   useEffect(() => {
+    console.log("RUN", postId);
     getDataWithinId(postId).then((res) => {
-      setValue({
-        title: res.title,
-        body: res.body,
-        mood: res.category,
-        date: res.date,
-        author: res.author,
-      });
       getDownloadURL(ref(fStorage, res.image)).then((url) => {
-        setValue({ ...value, image: url });
+        setValue({
+          title: res.title,
+          body: res.body,
+          mood: res.category,
+          date: res.date,
+          author: res.author,
+          image: url,
+        });
       });
     });
   }, []);
 
   return (
     <div className="cContainer">
-      <img src={value.image} />
+      <img style={{ width: "128px" }} src={value.image} />
       <h3>{value.title}</h3>
       <p>{value.body}</p>
     </div>

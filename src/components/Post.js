@@ -26,7 +26,10 @@ const Post = (props) => {
       <span className="postItemCategory">مود : {category}</span>
       <div>
         <h3>{title}</h3>
-        <p>{body.substring(0, 110)}...</p>
+        <div className="postDescriptionTextContainer">
+          <p>{body.substring(0, 120)}...</p>
+          <span></span>
+        </div>
         <div>
           <span>
             {getText(key.HL_Authour_Title)}

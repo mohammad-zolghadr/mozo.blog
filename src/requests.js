@@ -12,8 +12,9 @@ import {
   getCountFromServer,
   where,
 } from "firebase/firestore";
-import { db, fStorage } from "./firebase-config";
+import { db, fStorage, auth, provider } from "./firebase-config";
 import { ref, uploadBytes } from "firebase/storage";
+import { signInWithPopup, signOut } from "firebase/auth";
 
 const postsCollectionRef = collection(db, "posts");
 const moodsCollectionRef = collection(db, "moods");
@@ -106,6 +107,30 @@ const getAboutMeData = async () => {
   return data.docs.map((doc) => ({ ...doc.data() }));
 };
 
+const mSignUp = async () => {
+  let data;
+  await signInWithPopup(auth, provider)
+    .then((res) => {
+      data = {
+        isAuth: true,
+        id: res.user.uid,
+        name: res.user.displayName,
+        email: res.user.email,
+        image: res.user.photoURL,
+      };
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    })
+    .catch((error) => console.log(error));
+
+  return data;
+};
+
+const mSignOut = async () => {
+  await signOut(auth).then(() => {
+    localStorage.clear();
+  });
+};
+
 export {
   getPostsList,
   getPostsCount,
@@ -113,4 +138,6 @@ export {
   sendPost,
   getAboutMeData,
   getLastId,
+  mSignUp,
+  mSignOut,
 };

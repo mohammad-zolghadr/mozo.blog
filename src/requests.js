@@ -49,6 +49,12 @@ const getPostsCount = async () => {
   return size;
 };
 
+const getLastId = async () => {
+  const mQuery = query(postsCollectionRef, orderBy("id", "desc"), limit(1));
+  const data = await getDocs(mQuery);
+  return data.docs[0]._document.data.value.mapValue.fields.id;
+};
+
 const getMoodsList = async () => {
   let data = await getDocs(moodsCollectionRef);
   const arrayData = data.docs.map((doc) => ({ ...doc.data() }));
@@ -56,6 +62,7 @@ const getMoodsList = async () => {
 };
 
 const sendPost = (
+  id,
   image,
   title,
   body,
@@ -73,6 +80,7 @@ const sendPost = (
   );
   uploadBytes(imageRef, image).then((res) => {
     addDoc(postsCollectionRef, {
+      id,
       title,
       body,
       image: res.metadata.fullPath,
@@ -98,4 +106,11 @@ const getAboutMeData = async () => {
   return data.docs.map((doc) => ({ ...doc.data() }));
 };
 
-export { getPostsList, getPostsCount, getMoodsList, sendPost, getAboutMeData };
+export {
+  getPostsList,
+  getPostsCount,
+  getMoodsList,
+  sendPost,
+  getAboutMeData,
+  getLastId,
+};

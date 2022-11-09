@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Function
 import { TextKey, getText } from "../Text";
-import { sendPost } from "../requests";
+import { sendPost, getLastId } from "../requests";
 
 // components
 import Loading from "./Loading";
@@ -103,18 +103,23 @@ const NewPost = () => {
     if (userInfo && userInfo.isAuth) {
       setIsLoading(true);
       if (inputValue.image == null) return;
-      sendPost(
-        inputValue.image,
-        inputValue.title,
-        inputValue.body,
-        userInfo.name,
-        userInfo.email,
-        mood,
-        successToast,
-        errorToast,
-        setIsLoading,
-        setInputValue
-      );
+      let id = 0;
+      getLastId().then((res) => {
+        id = +res.integerValue + 1;
+        sendPost(
+          id,
+          inputValue.image,
+          inputValue.title,
+          inputValue.body,
+          userInfo.name,
+          userInfo.email,
+          mood,
+          successToast,
+          errorToast,
+          setIsLoading,
+          setInputValue
+        );
+      });
     } else errorToast(getText(key.NP_ErrorAuth));
   };
 

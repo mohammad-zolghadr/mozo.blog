@@ -17,10 +17,13 @@ import { sendPost, getLastId } from "../requests";
 import Loading from "./Loading";
 import MoodsList from "./MoodsList";
 
+const SUMMARY_LIMIT_CHAR = 120;
+
 const NewPost = () => {
   const key = new TextKey();
   const [inputValue, setInputValue] = useState({
     title: "",
+    summary: "",
     body: "",
     image: "",
   });
@@ -100,11 +103,12 @@ const NewPost = () => {
       setIsLoading(true);
       let id = 0;
       getLastId().then((res) => {
-        id = +res.integerValue + 1;
+        typeof res === "number" ? (id = res) : (id = +res.integerValue + 1);
         sendPost(
           id,
           inputValue.image,
           inputValue.title,
+          inputValue.summary,
           inputValue.body,
           userInfo.name,
           userInfo.email,
@@ -113,7 +117,7 @@ const NewPost = () => {
           setIsLoading(false);
           if (isUploaded.state) {
             successToast(isUploaded.text);
-            setInputValue({ title: "", body: "", image: "" });
+            setInputValue({ title: "", body: "", image: "", summary: "" });
           } else errorToast(isUploaded.text);
         });
       });
@@ -132,6 +136,23 @@ const NewPost = () => {
           onChange={inputHandler}
           placeholder={getText(key.NP_PH_Title)}
         />
+        <div className="npSummaryContainer">
+          <textarea
+            className="npSummary"
+            name="summary"
+            type="text"
+            value={inputValue.summary}
+            onChange={inputHandler}
+            placeholder={getText(key.NP_PH_Summary)}
+            maxLength="120"
+          />
+          <span
+            className="npSummaryLimitation"
+            style={{
+              color: inputValue.summary.length === SUMMARY_LIMIT_CHAR && "#f00",
+            }}
+          >{`${inputValue.summary.length}/${SUMMARY_LIMIT_CHAR}`}</span>
+        </div>
         <div className="newPostTextAreaContainer">
           <textarea
             name="body"

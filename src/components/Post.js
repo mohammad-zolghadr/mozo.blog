@@ -6,7 +6,7 @@ import { getText, TextKey } from "../Text";
 import { downloadImage } from "../requests";
 
 const Post = (props) => {
-  const { image, title, body, author, date, category, id } = props.data;
+  const { image, title, summary, author, date, category, id } = props.data;
   let navigate = useNavigate();
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
@@ -21,7 +21,7 @@ const Post = (props) => {
       <div>
         <h3>{title}</h3>
         <div className="postDescriptionTextContainer">
-          <p>{body.substring(0, 120)}...</p>
+          <p>{summary}</p>
           <span></span>
         </div>
         <div>

@@ -53,7 +53,10 @@ const getPostsCount = async () => {
 const getLastId = async () => {
   const mQuery = query(postsCollectionRef, orderBy("id", "desc"), limit(1));
   const data = await getDocs(mQuery);
-  return data.docs[0]._document.data.value.mapValue.fields.id;
+  const id = data.docs[0]
+    ? data.docs[0]._document.data.value.mapValue.fields.id
+    : 1;
+  return id;
 };
 
 const getDataWithinId = async (id) => {
@@ -71,6 +74,7 @@ const sendPost = async (
   id,
   image,
   title,
+  summary,
   body,
   author,
   email,
@@ -82,6 +86,7 @@ const sendPost = async (
       await addDoc(postsCollectionRef, {
         id,
         title,
+        summary,
         body,
         image: imageIdUploaded,
         author,

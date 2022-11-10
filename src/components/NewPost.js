@@ -24,12 +24,14 @@ const NewPost = () => {
     body: "",
     image: "",
   });
-  const [mood, setMood] = useState();
+  const [mood, setMood] = useState("همه");
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  // const [bodyTextHandler, setBodyTextHandler] = useState(false);
   const bodyText = useRef(null);
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
 
   const voiceTypingHandler = () => {
     if (!listening)
@@ -39,70 +41,63 @@ const NewPost = () => {
 
   useEffect(() => {
     if (transcript) {
-      // let finalText;
-      // if (bodyTextHandler === "") finalText = transcript;
-      // else {
-      //   finalText = `${bodyTextHandler} ${transcript}`;
-      //   // setBodyTextHandler("");
-      // }
-      // finalText &&
-      // if (!bodyTextHandler) {
-      //   setInputValue({
-      //     ...inputValue,
-      //     body: `${bodyText.current.value} ${transcript}`,
-      //   });
-      //   setBodyTextHandler(true);
-      // } else {
       setInputValue({
         ...inputValue,
         body: transcript,
       });
-      // }
     }
   }, [transcript]);
-
-  // useEffect(() => {
-  //   // setBodyTextHandler(bodyText.current.value);
-  // }, [inputValue.body]);
 
   const inputHandler = (e) => {
     setInputValue({
       ...inputValue,
       [e.target.name]:
-        e.target.name !== "image" ? e.target.value : e.target.files[0],
+        e.target.name !== "image"
+          ? e.target.value
+          : e.target.files[e.target.files.length - 1],
     });
 
-    if (e.target.name === "image" && e.target.files[0]) {
+    if (
+      e.target.name === "image" &&
+      e.target.files[e.target.files.length - 1]
+    ) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         setPreviewImage(reader.result);
       });
-      reader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[e.target.files.length - 1]);
     }
   };
 
   const successToast = (message) => toast.success(message);
   const errorToast = (message) => toast.error(message);
 
-  const sendData = (event) => {
-    event.preventDefault();
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
+  const isDataValidate = () => {
     // all field Filled
     if (!inputValue.title || !inputValue.body || !inputValue.image) {
       errorToast(getText(key.NP_ErrorFillFields));
-      return;
+      return false;
     }
     // maximum image size 200KB
-    if (+inputValue.image.size / 1000 > 200) {
+    else if (+inputValue.image.size / 1000 > 200) {
       errorToast(getText(key.NP_ErrorImageSize));
-      return;
+      return false;
+    } else {
+      // user is Auth and Post
+      if (userInfo && userInfo.isAuth) return true;
+      else {
+        errorToast(getText(key.NP_ErrorAuth));
+        return false;
+      }
     }
+  };
 
-    // user is Auth and Post
-    if (userInfo && userInfo.isAuth) {
+  const sendData = (event) => {
+    event.preventDefault();
+    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+
+    if (isDataValidate()) {
       setIsLoading(true);
-      if (inputValue.image == null) return;
       let id = 0;
       getLastId().then((res) => {
         id = +res.integerValue + 1;
@@ -113,14 +108,16 @@ const NewPost = () => {
           inputValue.body,
           userInfo.name,
           userInfo.email,
-          mood,
-          successToast,
-          errorToast,
-          setIsLoading,
-          setInputValue
-        );
+          mood
+        ).then((isUploaded) => {
+          setIsLoading(false);
+          if (isUploaded.state) {
+            successToast(isUploaded.text);
+            setInputValue({ title: "", body: "", image: "" });
+          } else errorToast(isUploaded.text);
+        });
       });
-    } else errorToast(getText(key.NP_ErrorAuth));
+    }
   };
 
   return (

@@ -67,44 +67,51 @@ const getMoodsList = async () => {
   return arrayData.map((el) => Object.values(el)[0]);
 };
 
-const sendPost = (
+const sendPost = async (
   id,
   image,
   title,
   body,
   author,
   email,
-  mood = "همه",
-  successToast,
-  errorToast,
-  setIsLoading,
-  setInputValue
+  mood = "همه"
 ) => {
+  let isUploaded = { state: false, text: "" };
+  await uploadImage(image)
+    .then(async (imageIdUploaded) => {
+      await addDoc(postsCollectionRef, {
+        id,
+        title,
+        body,
+        image: imageIdUploaded,
+        author,
+        email,
+        date: new Date().toLocaleDateString("fa-IR"),
+        category: mood,
+      })
+        .then(() => {
+          isUploaded = { state: true, text: getText(key.NP_SuccessPost) };
+        })
+        .catch(() => {
+          isUploaded = { state: false, text: getText(key.NP_ErrorPost) };
+        });
+    })
+    .catch(
+      () => (isUploaded = { state: false, text: getText(key.NP_ErrorPost) })
+    );
+  return isUploaded;
+};
+
+const uploadImage = async (imageFile) => {
+  let imageIdUploaded;
   const imageRef = ref(
     fStorage,
-    `postImage/${image.name + new Date().toISOString()}`
+    `postImage/${imageFile.name + new Date().toISOString()}`
   );
-  uploadBytes(imageRef, image).then((res) => {
-    addDoc(postsCollectionRef, {
-      id,
-      title,
-      body,
-      image: res.metadata.fullPath,
-      author,
-      email,
-      date: new Date().toLocaleDateString("fa-IR"),
-      category: mood,
-    })
-      .then(() => {
-        setIsLoading(false);
-        successToast(getText(key.NP_SuccessPost));
-        setInputValue({ title: "", body: "", image: "" });
-      })
-      .catch(() => {
-        setIsLoading(false);
-        errorToast(getText(key.NP_ErrorPost));
-      });
-  });
+  await uploadBytes(imageRef, imageFile).then(
+    (res) => (imageIdUploaded = res.metadata.fullPath)
+  );
+  return imageIdUploaded;
 };
 
 const getAboutMeData = async () => {
@@ -155,4 +162,5 @@ export {
   mSignUp,
   mSignOut,
   downloadImage,
+  uploadImage,
 };

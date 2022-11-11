@@ -7,6 +7,7 @@
     width: 100%;
     font-size: 0.85rem;
     line-height: 200%;
+    position: relative;
 
     .ck-toolbar{
         background-color: $inputBg;
@@ -27,5 +28,45 @@
         overflow-y: scroll;
         border-radius: 0 0 10px 10px !important;
 
+    }
+}
+
+
+@mixin positionAbsolute {
+    position: absolute;
+    top: 0;
+    left : 0;
+}
+
+.newPostTextAreaContainer > div{
+    position: absolute;
+    top: 50px;
+    left: 25px;
+    @include simpleHover();
+
+    div{
+        background-color: $primaryColor;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+         @include positionAbsolute();
+        animation : scalingAnimation 1s ease-in-out infinite;
+    }
+    
+    img{
+        width: 26px;
+        @include positionAbsolute();
+        z-index: 1;
+    }
+
+    @keyframes scalingAnimation {
+        from {
+            transform: scale(0 , 0);
+            opacity: 1;
+        }
+        to{
+            transform: scale(1.5 , 1.5);
+            opacity: 0;
+        }
     }
 }

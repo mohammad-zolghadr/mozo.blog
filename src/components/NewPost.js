@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
 
 // styles & icons
 import style from "../sass/NewPost.scss";
-import voiceIco from "../assets/images/voice-ico.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -31,22 +27,9 @@ const NewPost = () => {
   const [mood, setMood] = useState("همه");
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
-
-  const voiceTypingHandler = () => {
-    if (!listening)
-      SpeechRecognition.startListening({ continuous: true, language: "fa-IR" });
-    else SpeechRecognition.stopListening();
-  };
-
-  useEffect(() => {
-    if (transcript) {
-      setIvBody(transcript);
-    }
-  }, [transcript]);
 
   const inputHandler = (e) => {
     switch (e.target.name) {
@@ -168,19 +151,6 @@ const NewPost = () => {
             >{`${inputValue.summary.length}/${SUMMARY_LIMIT_CHAR}`}</span>
           </div>
         </div>
-        {/* <div className="newPostTextAreaContainer">
-          <textarea
-            name="body"
-            ref={bodyText}
-            value={inputValue.body}
-            onChange={inputHandler}
-            placeholder={getText(key.NP_PH_Text)}
-          ></textarea>
-          <div>
-            {listening && <div></div>}
-            <img src={voiceIco} onClick={voiceTypingHandler} />
-          </div>
-        </div> */}
         <div className="newPostFileChooser">
           <label htmlFor="file-upload" className="newPostFileUpload">
             {getText(key.NP_IN_File)}

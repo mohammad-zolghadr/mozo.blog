@@ -14,25 +14,16 @@ import { getText, TextKey } from "../Text";
 import listEmpty from "../assets/images/search_empty.png";
 
 const Blog = () => {
+  const countPostFetchPerRequest = 3;
   const key = new TextKey();
   const [mood, setMood] = useState("همه");
   const [postsList, setPostsList] = useState([]);
   const [emptyLastPostFetched, setEmptyLastPostFetched] = useState([
     { mood: "همه", count: 0 },
-    // { mood: "انرژی مثبت", count: 0 },
-    // { mood: "فاز سنگین", count: 0 },
-    // { mood: "انگیزشی", count: 0 },
-    // { mood: "غمگین", count: 0 },
-    // { mood: "عاشقانه", count: 0 },
-    // { mood: "خوشحال", count: 0 },
-    // { mood: "مناسبتی", count: 0 },
-    // { mood: "مود", count: 0 },
-    // { mood: "آموزشی", count: 0 },
   ]);
   const [lastPostFetched, setLastPostFetched] = useState(emptyLastPostFetched);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const countPostFetchPerRequest = 3;
 
   const getLastPostFetchedWithinMood = () => {
     return lastPostFetched.find((element) => element.mood === mood);
@@ -78,8 +69,8 @@ const Blog = () => {
   }, [mood]);
 
   useEffect(() => {
-    emptyLastPostFetched.length !== 0 &&
-      setLastPostFetched(emptyLastPostFetched);
+    setLastPostFetched(emptyLastPostFetched);
+    setLastPostFetchedWithinMood(countPostFetchPerRequest + 1);
   }, [emptyLastPostFetched]);
 
   const getMorePost = () => {

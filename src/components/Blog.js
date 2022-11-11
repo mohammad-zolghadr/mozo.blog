@@ -17,17 +17,18 @@ const Blog = () => {
   const key = new TextKey();
   const [mood, setMood] = useState("همه");
   const [postsList, setPostsList] = useState([]);
-  const emptyLastPostFetched = [
+  const [emptyLastPostFetched, setEmptyLastPostFetched] = useState([
     { mood: "همه", count: 0 },
-    { mood: "انرژی مثبت", count: 0 },
-    { mood: "فاز سنگین", count: 0 },
-    { mood: "انگیزشی", count: 0 },
-    { mood: "غمگین", count: 0 },
-    { mood: "عاشقانه", count: 0 },
-    { mood: "خوشحال", count: 0 },
-    { mood: "مناسبتی", count: 0 },
-    { mood: "مود", count: 0 },
-  ];
+    // { mood: "انرژی مثبت", count: 0 },
+    // { mood: "فاز سنگین", count: 0 },
+    // { mood: "انگیزشی", count: 0 },
+    // { mood: "غمگین", count: 0 },
+    // { mood: "عاشقانه", count: 0 },
+    // { mood: "خوشحال", count: 0 },
+    // { mood: "مناسبتی", count: 0 },
+    // { mood: "مود", count: 0 },
+    // { mood: "آموزشی", count: 0 },
+  ]);
   const [lastPostFetched, setLastPostFetched] = useState(emptyLastPostFetched);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,6 +77,11 @@ const Blog = () => {
     getData();
   }, [mood]);
 
+  useEffect(() => {
+    emptyLastPostFetched.length !== 0 &&
+      setLastPostFetched(emptyLastPostFetched);
+  }, [emptyLastPostFetched]);
+
   const getMorePost = () => {
     setIsLoading(true);
     getData();
@@ -83,7 +89,10 @@ const Blog = () => {
 
   return (
     <div className="cContainer">
-      <MoodsList mood={setMood} />
+      <MoodsList
+        mood={setMood}
+        lpFetch={{ emptyLastPostFetched, setEmptyLastPostFetched }}
+      />
       <div className="blogPostsContainer">
         <div className="postsListContainer">
           {postsList && postsList.map((el) => <Post key={el.id} data={el} />)}

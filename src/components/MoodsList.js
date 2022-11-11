@@ -8,11 +8,21 @@ import style from "../sass/MoodsList.scss";
 const MoodsList = (props) => {
   const [categorySelected, setCategorySelected] = useState(0);
   const [categories, setCategories] = useState();
+  const arrayListOfMoods = [];
+
   useEffect(() => {
-    async function getData() {
-      setCategories(await getMoodsList());
-    }
-    getData();
+    getMoodsList().then((data) => {
+      setCategories(data);
+      if (props.lpFetch) {
+        data.forEach((element) => {
+          arrayListOfMoods.push({
+            mood: element,
+            count: 0,
+          });
+        });
+        props.lpFetch.setEmptyLastPostFetched(arrayListOfMoods);
+      }
+    });
   }, []);
 
   const changeCategory = (e) => {

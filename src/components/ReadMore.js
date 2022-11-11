@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import parse from "html-react-parser";
 
 //Components
 import Loading from "./Loading";
@@ -55,7 +56,7 @@ const ReadMore = () => {
               <span>{value.date}</span>
             </div>
             <h2>{value.title}</h2>
-            <p>{value.body}</p>
+            <div>{value && parse(value.body)}</div>
           </>
         )}
       </div>

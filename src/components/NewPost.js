@@ -142,7 +142,7 @@ const NewPost = () => {
 
         <div className="npInputContainer">
           <label className="npLabel">{getText(key.NP_PH_Body)}</label>
-          <RichtextEditor />
+          <RichtextEditor hocState={{ inputValue, setInputValue }} />
         </div>
 
         <div className="npInputContainer">

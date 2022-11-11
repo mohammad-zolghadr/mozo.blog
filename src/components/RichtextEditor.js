@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import parse from "html-react-parser";
 
 // CKeditor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -12,12 +11,8 @@ const editorConfiguration = {
   toolbar: ["bold", "italic"],
 };
 
-const RichtextEditor = () => {
+const RichtextEditor = (props) => {
   const [value, setValue] = useState();
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   return (
     <div className="richTextEditorContainer">
@@ -27,12 +22,15 @@ const RichtextEditor = () => {
           //   config={editorConfiguration}
           data={value}
           onChange={(e, editor) => {
+            props.hocState.setInputValue({
+              ...props.hocState.inputValue,
+              body: editor.getData(),
+            });
             setValue(editor.getData());
             console.log(editor.getData());
           }}
         />
       }
-      {/* <div>{value && parse(value)}</div> */}
     </div>
   );
 };

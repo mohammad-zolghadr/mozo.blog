@@ -16,6 +16,7 @@ import { sendPost, getLastId } from "../requests";
 // components
 import Loading from "./Loading";
 import MoodsList from "./MoodsList";
+import RichtextEditor from "./RichtextEditor";
 
 const SUMMARY_LIMIT_CHAR = 120;
 
@@ -136,6 +137,7 @@ const NewPost = () => {
           onChange={inputHandler}
           placeholder={getText(key.NP_PH_Title)}
         />
+        <RichtextEditor />
         <div className="npSummaryContainer">
           <textarea
             className="npSummary"

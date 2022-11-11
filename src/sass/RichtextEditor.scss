@@ -1,0 +1,31 @@
+@import "./mixins";
+@import "./variables";
+
+
+.richTextEditorContainer{
+    @include displayFlex(center);
+    width: 100%;
+    font-size: 0.85rem;
+    line-height: 200%;
+
+    .ck-toolbar{
+        background-color: $inputBg;
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .ck-button__label{
+        font-family: nf;
+    }
+    
+    .ck-editor{
+        width: 100%;
+        margin: auto;
+    }
+    
+    .ck-content{
+        height: 300px;
+        overflow-y: scroll;
+        border-radius: 0 0 10px 10px !important;
+
+    }
+}

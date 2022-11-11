@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -25,14 +25,13 @@ const NewPost = () => {
   const [inputValue, setInputValue] = useState({
     title: "",
     summary: "",
-    body: "",
     image: "",
   });
+  const [ivBody, setIvBody] = useState("");
   const [mood, setMood] = useState("همه");
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  const bodyText = useRef(null);
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
@@ -45,22 +44,25 @@ const NewPost = () => {
 
   useEffect(() => {
     if (transcript) {
-      setInputValue({
-        ...inputValue,
-        body: transcript,
-      });
+      setIvBody(transcript);
     }
   }, [transcript]);
 
   const inputHandler = (e) => {
-    setInputValue({
-      ...inputValue,
-      [e.target.name]:
-        e.target.name !== "image"
-          ? e.target.value
-          : e.target.files[e.target.files.length - 1],
-    });
-
+    switch (e.target.name) {
+      case "image":
+        setInputValue({
+          ...inputValue,
+          image: e.target.files[e.target.files.length - 1],
+        });
+        break;
+      case "body":
+        setIvBody(e.target.value);
+        break;
+      default:
+        setInputValue({ ...inputValue, [e.target.name]: e.target.value });
+        break;
+    }
     if (
       e.target.name === "image" &&
       e.target.files[e.target.files.length - 1]
@@ -78,7 +80,7 @@ const NewPost = () => {
 
   const isDataValidate = () => {
     // all field Filled
-    if (!inputValue.title || !inputValue.body || !inputValue.image) {
+    if (!inputValue.title || !ivBody || !inputValue.image) {
       errorToast(getText(key.NP_ErrorFillFields));
       return false;
     }
@@ -110,7 +112,7 @@ const NewPost = () => {
           inputValue.image,
           inputValue.title,
           inputValue.summary,
-          inputValue.body,
+          ivBody,
           userInfo.name,
           userInfo.email,
           mood
@@ -118,7 +120,8 @@ const NewPost = () => {
           setIsLoading(false);
           if (isUploaded.state) {
             successToast(isUploaded.text);
-            setInputValue({ title: "", body: "", image: "", summary: "" });
+            setInputValue({ title: "", image: "", summary: "" });
+            setIvBody("");
           } else errorToast(isUploaded.text);
         });
       });
@@ -142,7 +145,7 @@ const NewPost = () => {
 
         <div className="npInputContainer">
           <label className="npLabel">{getText(key.NP_PH_Body)}</label>
-          <RichtextEditor hocState={{ inputValue, setInputValue }} />
+          <RichtextEditor hocState={{ ivBody, setIvBody }} />
         </div>
 
         <div className="npInputContainer">

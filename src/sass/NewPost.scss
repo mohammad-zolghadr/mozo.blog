@@ -16,10 +16,11 @@
     padding: 15px;
 
     input , textArea , .newPostFileUpload{
-        background-color: $inputBg;
         font-family: nf;
-        border-radius: 25px;
-        padding: 10px 20px;
+        background-color: $textFive;
+        border: 1px solid $textFour;
+        border-radius: 10px;
+        padding: 10px ;
         width: 100%;
     }
 
@@ -76,7 +77,7 @@
 
 .npSummaryContainer{
     position: relative;
-
+    width: 100%;
     
     .npSummary{
         max-height: 120px;
@@ -92,6 +93,22 @@
         bottom: 10px;
     }
 
+}
+
+.npInputContainer{
+    @include displayFlex(center);
+    flex-direction: column;
+    width: 100%;
+}
+
+.npLabel{
+    // background-color: rgba($color: $primaryColor, $alpha: 0.3);
+    background-color: $textFour;
+    color: $textThree;
+    font-size: 0.8rem;
+    font-family: bf;
+    padding: 0 15px;
+    border-radius: 10px 10px 0 0;
 }
 
 .newPostFileChooser{
@@ -142,5 +159,10 @@
     .newPostFormContainer{
         width: 70%;
         margin: auto;
+    }
+}
+@media (min-width : 1080px){
+    .newPostFormContainer{
+        width: 60%;
     }
 }

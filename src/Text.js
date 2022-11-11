@@ -31,6 +31,7 @@ class TextKey {
   // NewPost
   NP_PH_Title = "NewPost_PH_Title";
   NP_PH_Summary = "NewPost_PH_Summary";
+  NP_PH_Body = "NewPost_PH_Body";
   NP_PH_Text = "NewPost_PH_Text";
   NP_Btn_Login = "NewPost_Btn_Login";
   NP_Btn_Post = "NewPost_Btn_Post";
@@ -116,6 +117,8 @@ const getText = (whichTextNeed) => {
       return "عنوان پست";
     case key.NP_PH_Summary:
       return "خلاصه کوتاه از پست";
+    case key.NP_PH_Body:
+      return "متن پست";
     case key.NP_PH_Text:
       return `محتوای پستت رو اینجا بنویس\nاگه حوصله تایپ کردن نداری، روی دکمه ویس کلیک کن و متن رو به صورت ویس وارد کن`;
     case key.NP_IN_File:

@@ -130,32 +130,42 @@ const NewPost = () => {
       <ToastContainer position="bottom-left" autoClose={4000} />
       {isLoading && <Loading showFullScreen={true} />}
       <form onSubmit={sendData} className="newPostFormContainer">
-        <input
-          name="title"
-          type="text"
-          value={inputValue.title}
-          onChange={inputHandler}
-          placeholder={getText(key.NP_PH_Title)}
-        />
-        <RichtextEditor />
-        <div className="npSummaryContainer">
-          <textarea
-            className="npSummary"
-            name="summary"
+        <div className="npInputContainer">
+          <label className="npLabel">{getText(key.NP_PH_Title)}</label>
+          <input
+            name="title"
             type="text"
-            value={inputValue.summary}
+            value={inputValue.title}
             onChange={inputHandler}
-            placeholder={getText(key.NP_PH_Summary)}
-            maxLength="120"
           />
-          <span
-            className="npSummaryLimitation"
-            style={{
-              color: inputValue.summary.length === SUMMARY_LIMIT_CHAR && "#f00",
-            }}
-          >{`${inputValue.summary.length}/${SUMMARY_LIMIT_CHAR}`}</span>
         </div>
-        <div className="newPostTextAreaContainer">
+
+        <div className="npInputContainer">
+          <label className="npLabel">{getText(key.NP_PH_Body)}</label>
+          <RichtextEditor />
+        </div>
+
+        <div className="npInputContainer">
+          <label className="npLabel">{getText(key.NP_PH_Summary)}</label>
+          <div className="npSummaryContainer">
+            <textarea
+              className="npSummary"
+              name="summary"
+              type="text"
+              value={inputValue.summary}
+              onChange={inputHandler}
+              maxLength="120"
+            />
+            <span
+              className="npSummaryLimitation"
+              style={{
+                color:
+                  inputValue.summary.length === SUMMARY_LIMIT_CHAR && "#f00",
+              }}
+            >{`${inputValue.summary.length}/${SUMMARY_LIMIT_CHAR}`}</span>
+          </div>
+        </div>
+        {/* <div className="newPostTextAreaContainer">
           <textarea
             name="body"
             ref={bodyText}
@@ -167,7 +177,7 @@ const NewPost = () => {
             {listening && <div></div>}
             <img src={voiceIco} onClick={voiceTypingHandler} />
           </div>
-        </div>
+        </div> */}
         <div className="newPostFileChooser">
           <label htmlFor="file-upload" className="newPostFileUpload">
             {getText(key.NP_IN_File)}

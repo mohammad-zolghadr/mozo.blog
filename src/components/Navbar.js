@@ -82,7 +82,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              {userInfo.isAuth ? (
+              {userInfo && userInfo.isAuth ? (
                 <div className="navbarUsername" onClick={signOutHandler}>
                   <div
                     onMouseEnter={() => setIsShowLogout(true)}

@@ -10,6 +10,20 @@
     margin: auto;
     margin-bottom: $topMargin;
 
+    ul{
+        margin-top: 10px;
+    }
+    li{
+        margin-right: 25px;
+        list-style: disc;
+        font-size: 0.8rem;
+        color: $textThree;
+    }
+
+    a:hover{
+        @include simpleHover();
+    }
+
     img{
         width: 100%;
         height: 40vh;

@@ -28,6 +28,16 @@
         overflow-y: scroll;
         border-radius: 0 0 10px 10px !important;
 
+        ul{
+            margin-top: 10px;
+        }
+        li{
+            margin-right: 25px;
+            list-style: disc;
+            font-size: 0.8rem;
+            color: $textThree;
+        }
+
     }
 }
 

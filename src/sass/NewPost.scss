@@ -10,7 +10,7 @@
     row-gap: 20px;
     padding: 15px;
 
-    input , textArea , .newPostFileUpload{
+    input , .newPostFileUpload{
         font-family: nf;
         background-color: $textFive;
         border: 1px solid $textFour;
@@ -18,16 +18,6 @@
         padding: 10px ;
         width: 100%;
     }
-
-
-    textArea{
-        max-width: 100%;
-        height: 400px;
-        resize: none;
-        color: $textTwo;
-    }
-
-
 
 
     &>div{

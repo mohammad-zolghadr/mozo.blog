@@ -12,7 +12,7 @@ import style from "../sass/RichtextEditor.scss";
 import voiceIco from "../assets/images/voice-ico.png";
 
 const RichtextEditor = (props) => {
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  let { transcript, listening, resetTranscript } = useSpeechRecognition();
   const { ivBody, setIvBody } = props.hocState;
 
   const voiceTypingHandler = () => {
@@ -22,10 +22,14 @@ const RichtextEditor = (props) => {
   };
 
   useEffect(() => {
-    if (transcript) {
-      setIvBody(transcript);
-    }
+    if (transcript) setIvBody(transcript);
   }, [transcript]);
+
+  useEffect(() => {
+    if (ivBody === "") {
+      resetTranscript();
+    }
+  }, [ivBody]);
 
   return (
     <div className="richTextEditorContainer">

@@ -10,10 +10,15 @@
     position: relative;
 
     .ck-toolbar{
-        background-color: $inputBg;
+        background-color: $inputBg !important;
         border-radius: 10px 10px 0 0 !important;
     }
     
+    .ck.ck-editor{
+        
+        width: 100%;
+    }
+
     .ck-button__label{
         font-family: nf;
     }
@@ -22,6 +27,7 @@
         width: 100%;
         margin: auto;
     }
+    
     
     .ck-content{
         height: 300px;

@@ -5,7 +5,7 @@ $imageHeight : 200px;
 
 .postContainer{
 
-    flex : 1 1 300px;
+    flex-basis :300px;
     margin: 10px;
     border-radius: 15px;
     overflow: hidden;

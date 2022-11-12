@@ -81,7 +81,7 @@ const Blog = () => {
   };
 
   return (
-    <div className="cContainer">
+    <div className="BlogContainer">
       <MoodsList
         mood={setMood}
         lpFetch={{ emptyLastPostFetched, setEmptyLastPostFetched }}

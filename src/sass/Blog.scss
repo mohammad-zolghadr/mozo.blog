@@ -1,6 +1,11 @@
 @import "./mixins";
 @import "./variables";
 
+.BlogContainer{
+    
+  margin-top: $topMargin;
+}
+
 .blogPostsContainer{
     @include postsContainer;
     @include displayFlex(center);

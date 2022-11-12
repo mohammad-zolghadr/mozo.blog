@@ -11,13 +11,15 @@ import Loading from "./Loading";
 
 // Function
 import { TextKey, getText } from "../Text";
-import { getPostsList, getPostsCount } from "../requests";
+import { getPostsList } from "../requests";
+import useTitle from "../hooks/useTitle";
 
 const Home = () => {
   let navigate = useNavigate();
   const key = new TextKey();
   const [postsList, setPostsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  useTitle(getText(key.H_Page_Title));
 
   useEffect(() => {
     async function getData() {

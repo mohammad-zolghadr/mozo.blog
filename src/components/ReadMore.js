@@ -10,6 +10,7 @@ import style from "../sass/ReadMore.scss";
 // Functions
 import { getDataWithinId, downloadImage } from "../requests";
 import { getText, TextKey } from "../Text";
+import useTitle from "../hooks/useTitle";
 
 const ReadMore = () => {
   const [value, setValue] = useState({
@@ -40,6 +41,8 @@ const ReadMore = () => {
       });
     });
   }, []);
+
+  useTitle(value.title);
 
   return (
     <div className="cContainer">

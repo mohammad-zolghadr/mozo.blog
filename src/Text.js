@@ -4,6 +4,7 @@ class TextKey {
   Ok = "Ok";
 
   // Not Found
+  NF_Page_Title = "NotFound_Page_Title";
   NF_Title = "NotFound_Title";
 
   // Navbar
@@ -23,10 +24,14 @@ class TextKey {
   HL_Btn_NewPost = "Home_Landing_Button_New_Post";
   HL_Title_LastBlog = "Home_Landing_Title_Last_Blog";
   HL_EMPTY_LIST = "Home_Landing_EMPTY_LIST";
+  H_Page_Title = "H_Page_Title";
 
   // Post
   HL_Btn_Continue = "Home_Landing_Btn_Continue";
   HL_Authour_Title = "Home_Landing_Authour_Title";
+
+  // Blog
+  B_Page_Title = "B_Page_Title";
 
   // NewPost
   NP_PH_Title = "NewPost_PH_Title";
@@ -42,11 +47,13 @@ class TextKey {
   NP_ErrorFillFields = "NP_Error_Fill_Fields";
   NP_ErrorImageSize = "NP_Error_Image_Size";
   NP_MaximumPicSize = "NP_Maximum_Picture_Size";
+  NP_Page_Title = "NP_Page_Title";
 
   // About Me
   AM_NAME = "AM_MY_NAME";
   AM_SPECIALTY = "AM_SPECIALTY_FRONT_END";
   AM_SEE_MY_WEB = "AM_SEE_MY_PORTFOLIO";
+  AM_PAGE_TITLE = "AM_PAGE_TITLE";
 }
 
 const getText = (whichTextNeed) => {
@@ -57,7 +64,7 @@ const getText = (whichTextNeed) => {
   switch (whichTextNeed) {
     // App ===========
     case key.TurnOnVPN:
-      return `دوست ایرانی من 
+      return `دوست من 
 به دلیل استفاده این وبسایت از فایربیس، برای ورود به اکانت، پست گذاشتن، دیدن پست های جدید و... باید VPN خودت رو روشن کنی`;
     case key.Ok:
       return "باشه";
@@ -65,6 +72,8 @@ const getText = (whichTextNeed) => {
 
     // Not Found =============
 
+    case key.NF_Page_Title:
+      return "آدرس اشتباهه";
     case key.NF_Title:
       return "صفحه مورد نظر پیدا نشد";
 
@@ -103,6 +112,8 @@ const getText = (whichTextNeed) => {
       return "مطالب اخیر";
     case key.HL_EMPTY_LIST:
       return "نتیجه ای یافت نشد";
+    case key.H_Page_Title:
+      return "خانه";
     // ===================
 
     // Post Component ===================
@@ -139,7 +150,14 @@ const getText = (whichTextNeed) => {
       return "سایز تصویر نباید بیشتر از 200 کیلوبایت باشه";
     case key.NP_MaximumPicSize:
       return "حداکثر حجم تصویر 200 کیلوبایت";
+    case key.NP_Page_Title:
+      return "نوشتن  پست جدید";
     // ===================
+
+    // Blog ===================
+    case key.B_Page_Title:
+      return "همه پست ها";
+    // ========================
 
     // About Me =================
     case key.AM_NAME:
@@ -148,6 +166,8 @@ const getText = (whichTextNeed) => {
       return "توسعه دهنده فرانت‌‌اند | مدرس وب";
     case key.AM_SEE_MY_WEB:
       return "مشاهده وب سایت من";
+    case key.AM_Page_Title:
+      return "درباره من";
 
     // =====================
 

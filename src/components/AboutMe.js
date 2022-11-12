@@ -5,12 +5,16 @@ import style from "../sass/AboutMe.scss";
 
 // Functions
 import { getAboutMeData } from "../requests";
+import { getText, TextKey } from "../Text";
+import useTitle from "../hooks/useTitle";
 
 // Components
 import Loading from "./Loading";
 
 const AboutMe = () => {
+  const key = new TextKey();
   const [data, setData] = useState();
+  useTitle(getText(key.AM_Page_Title));
 
   useEffect(() => {
     async function getData() {

@@ -10,6 +10,7 @@ import MoodsList from "./MoodsList";
 // Function
 import { getPostsList, getPostsCount } from "../requests";
 import { getText, TextKey } from "../Text";
+import useTitle from "../hooks/useTitle";
 
 import listEmpty from "../assets/images/search_empty.png";
 
@@ -24,6 +25,7 @@ const Blog = () => {
   const [lastPostFetched, setLastPostFetched] = useState(emptyLastPostFetched);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  useTitle(getText(key.B_Page_Title));
 
   const getLastPostFetchedWithinMood = () => {
     return lastPostFetched.find((element) => element.mood === mood);

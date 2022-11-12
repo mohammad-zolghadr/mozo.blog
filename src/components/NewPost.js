@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 // Function
 import { TextKey, getText } from "../Text";
 import { sendPost, getLastId } from "../requests";
+import useTitle from "../hooks/useTitle";
 
 // components
 import Loading from "./Loading";
@@ -30,6 +31,7 @@ const NewPost = () => {
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
+  useTitle(getText(key.NP_Page_Title));
 
   const inputHandler = (e) => {
     switch (e.target.name) {

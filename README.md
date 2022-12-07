@@ -6,7 +6,7 @@
 
 Using :<br/>
 🔴 Html - Css - Javascript - React.Js <br/>
-🔴 SASS <br/>
+🔴 SASS (SCSS) <br/>
 🔴 Firebase <br/>
 🔴 React-Toastify <br/>
 🔴 CKeditor (RichText Editor) <br/>

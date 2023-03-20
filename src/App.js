@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // components
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -32,6 +35,7 @@ const App = () => {
 
   return (
     <div>
+      <ToastContainer position="bottom-left" autoClose={4000} />
       <Navbar />
       {isShowingGlobalMessage && (
         <GlobalMessage

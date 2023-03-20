@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 // styles & icons
 import style from "../sass/NewPost.scss";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // Function
 import { TextKey, getText } from "../Text";
@@ -115,7 +114,6 @@ const NewPost = () => {
 
   return (
     <div className="cContainer">
-      <ToastContainer position="bottom-left" autoClose={4000} />
       {isLoading && <Loading showFullScreen={true} />}
       <form onSubmit={sendData} className="newPostFormContainer">
         <div className="npInputContainer">

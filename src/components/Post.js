@@ -22,7 +22,9 @@ const Post = (props) => {
   return (
     <div className="postContainer">
       <img src={imageUrl} />
-      <span className="postItemCategory">مود : {category}</span>
+      <span className="postItemCategory">
+        {getText(key.Mood, t, i18n) + category}
+      </span>
       <div>
         <h3>{title}</h3>
         <div className="postDescriptionTextContainer">

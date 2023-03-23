@@ -103,7 +103,9 @@ const Blog = () => {
         {postsList.length < postCollectionSize &&
           !isLoading &&
           postsList.length !== 0 && (
-            <button onClick={getMorePost}>مشاهده بیشتر</button>
+            <button onClick={getMorePost}>
+              {getText(key.See_More_Post, t, i18n)}
+            </button>
           )}
       </div>
     </div>

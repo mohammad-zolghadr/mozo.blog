@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import style from "../sass/Navbar.scss";
 import gmailIcon from "../assets/images/gmail-icon.png";
 import arrowIcon from "../assets/images/arrowMenu.png";
+import languageIcon from "../assets/images/changeLanguage.svg";
 
 // function
 import { getText, TextKey } from "../Text";
@@ -51,6 +52,11 @@ const Navbar = () => {
     setNavTopResponsive(true);
   };
 
+  const getOppositeLanguage = () => {
+    if (i18n.language === "fa") return "en";
+    else if (i18n.language === "en") return "fa";
+  };
+
   return (
     <div>
       <header>
@@ -83,6 +89,17 @@ const Navbar = () => {
               <Link to="/about-me" onClick={closeNavResponsive}>
                 {getText(key.NB_AboutMe, t, i18n)}
               </Link>
+            </li>
+            <li>
+              <span
+                className="changeLanguageSpan"
+                onClick={() => {
+                  i18n.changeLanguage(getOppositeLanguage());
+                }}
+              >
+                <span>{getOppositeLanguage()}</span>
+                <img src={languageIcon} />
+              </span>
             </li>
             <li>
               {userInfo && userInfo.isAuth ? (

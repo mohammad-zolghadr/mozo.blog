@@ -11,12 +11,29 @@ header {
     width: 100%;
     padding: 5px 15px;
 
+    .changeLanguageSpan{
+        background-color: $secondaryColor;
+        padding: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        @include simpleHover;
+        img{
+            width: 20px
+        }
+        @include displayFlex(center);
+        color: $textFour;
+        gap: 5px;
+        font-size: 0.9rem;
+    }
+    
+
     nav{
         background-color: $secondaryColor;
         border-radius: 0 0 10px 10px;
         position: absolute;
         left: 10px;
-        top: -200px;
+        top: -250px;
         transition: all 0.5s;
         padding: 10px;
     }
@@ -38,7 +55,7 @@ header {
         padding-bottom: 8px;
         border-bottom: 1px solid $textTwo;
     }
-    li:nth-child(4){
+    li:nth-child(5){
         border: none;
         margin-top: 5px;
     }

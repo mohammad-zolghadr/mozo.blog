@@ -56,7 +56,7 @@ class TextKey {
   AM_PAGE_TITLE = "AM_PAGE_TITLE";
 }
 
-const getText = (whichTextNeed) => {
+const getText = (whichTextNeed, t) => {
   const key = new TextKey();
 
   // Must Have a condition to show Persian or English
@@ -64,10 +64,9 @@ const getText = (whichTextNeed) => {
   switch (whichTextNeed) {
     // App ===========
     case key.TurnOnVPN:
-      return `دوست من 
-به دلیل استفاده این وبسایت از فایربیس، برای ورود به اکانت، پست گذاشتن، دیدن پست های جدید و... باید VPN خودت رو روشن کنی`;
+      return t("turnOnVpn");
     case key.Ok:
-      return "باشه";
+      return "ok";
     // =======================
 
     // Not Found =============

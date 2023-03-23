@@ -8,6 +8,8 @@ import style from "../sass/NewPost.scss";
 import { TextKey, getText } from "../Text";
 import { sendPost, getLastId } from "../requests";
 import useTitle from "../hooks/useTitle";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 // components
 import Loading from "./Loading";
@@ -30,7 +32,9 @@ const NewPost = () => {
   const [userInfo, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
-  useTitle(getText(key.NP_Page_Title));
+  const { t, i18n } = useTranslation();
+
+  useTitle(getText(key.NP_Page_Title, t, i18n));
 
   const inputHandler = (e) => {
     switch (e.target.name) {
@@ -65,18 +69,18 @@ const NewPost = () => {
   const isDataValidate = () => {
     // all field Filled
     if (!inputValue.title || !ivBody || !inputValue.image) {
-      errorToast(getText(key.NP_ErrorFillFields));
+      errorToast(getText(key.NP_ErrorFillFields, t, i18n));
       return false;
     }
     // maximum image size 200KB
     else if (+inputValue.image.size / 1000 > 200) {
-      errorToast(getText(key.NP_ErrorImageSize));
+      errorToast(getText(key.NP_ErrorImageSize, t, i18n));
       return false;
     } else {
       // user is Auth and Post
       if (userInfo && userInfo.isAuth) return true;
       else {
-        errorToast(getText(key.NP_ErrorAuth));
+        errorToast(getText(key.NP_ErrorAuth, t, i18n));
         return false;
       }
     }
@@ -117,7 +121,7 @@ const NewPost = () => {
       {isLoading && <Loading showFullScreen={true} />}
       <form onSubmit={sendData} className="newPostFormContainer">
         <div className="npInputContainer">
-          <label className="npLabel">{getText(key.NP_PH_Title)}</label>
+          <label className="npLabel">{getText(key.NP_PH_Title, t, i18n)}</label>
           <input
             name="title"
             type="text"
@@ -127,12 +131,14 @@ const NewPost = () => {
         </div>
 
         <div className="npInputContainer">
-          <label className="npLabel">{getText(key.NP_PH_Body)}</label>
+          <label className="npLabel">{getText(key.NP_PH_Body, t, i18n)}</label>
           <RichtextEditor hocState={{ ivBody, setIvBody }} />
         </div>
 
         <div className="npInputContainer">
-          <label className="npLabel">{getText(key.NP_PH_Summary)}</label>
+          <label className="npLabel">
+            {getText(key.NP_PH_Summary, t, i18n)}
+          </label>
           <div className="npSummaryContainer">
             <textarea
               className="npSummary"
@@ -153,7 +159,7 @@ const NewPost = () => {
         </div>
         <div className="newPostFileChooser">
           <label htmlFor="file-upload" className="newPostFileUpload">
-            {getText(key.NP_IN_File)}
+            {getText(key.NP_IN_File, t, i18n)}
           </label>
           <input
             name="image"
@@ -166,12 +172,12 @@ const NewPost = () => {
             <img className="newPostImagePreview" src={previewImage} />
           )}
           <span className="newPostImageCondition">
-            {getText(key.NP_MaximumPicSize)}
+            {getText(key.NP_MaximumPicSize, t, i18n)}
           </span>
         </div>
         <MoodsList mood={setMood} />
         <button type="submit" className="newPostSubmit">
-          {getText(key.NP_Btn_Post)}
+          {getText(key.NP_Btn_Post, t, i18n)}
         </button>
       </form>
     </div>

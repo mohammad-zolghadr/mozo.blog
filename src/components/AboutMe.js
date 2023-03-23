@@ -7,6 +7,8 @@ import style from "../sass/AboutMe.scss";
 import { getAboutMeData } from "../requests";
 import { getText, TextKey } from "../Text";
 import useTitle from "../hooks/useTitle";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 // Components
 import Loading from "./Loading";
@@ -14,7 +16,8 @@ import Loading from "./Loading";
 const AboutMe = () => {
   const key = new TextKey();
   const [data, setData] = useState();
-  useTitle(getText(key.AM_Page_Title));
+  const { t, i18n } = useTranslation();
+  useTitle(getText(key.AM_Page_Title, t, i18n));
 
   useEffect(() => {
     async function getData() {

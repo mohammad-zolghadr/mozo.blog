@@ -11,6 +11,8 @@ import MoodsList from "./MoodsList";
 import { getPostsList, getPostsCount } from "../requests";
 import { getText, TextKey } from "../Text";
 import useTitle from "../hooks/useTitle";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 import listEmpty from "../assets/images/search_empty.png";
 
@@ -25,7 +27,8 @@ const Blog = () => {
   const [lastPostFetched, setLastPostFetched] = useState(emptyLastPostFetched);
   const [postCollectionSize, setPostCollectionSize] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  useTitle(getText(key.B_Page_Title));
+  const { t, i18n } = useTranslation();
+  useTitle(getText(key.B_Page_Title, t, i18n));
 
   const getLastPostFetchedWithinMood = () => {
     return lastPostFetched.find((element) => element.mood === mood);
@@ -92,7 +95,7 @@ const Blog = () => {
           {postsList.length === 0 && !isLoading && (
             <div className="postsListEmpty">
               <img src={listEmpty} />
-              <p>{getText(key.HL_EMPTY_LIST)}</p>
+              <p>{getText(key.HL_EMPTY_LIST, t, i18n)}</p>
             </div>
           )}
         </div>

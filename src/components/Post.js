@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import style from "../sass/Post.scss";
+
+// Functions
 import { getText, TextKey } from "../Text";
 import { downloadImage } from "../requests";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 const Post = (props) => {
   const { image, title, summary, author, date, category, id } = props.data;
@@ -11,6 +15,7 @@ const Post = (props) => {
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
   const location = useLocation().pathname.split("/")[1];
+  const { t, i18n } = useTranslation();
 
   downloadImage(image).then((url) => setImageUrl(url));
 
@@ -26,7 +31,7 @@ const Post = (props) => {
         </div>
         <div>
           <span>
-            {getText(key.HL_Authour_Title)}
+            {getText(key.HL_Authour_Title, t, i18n)}
             {author}
           </span>
           <span>{date}</span>
@@ -39,7 +44,7 @@ const Post = (props) => {
               else navigate(`blog/${id}`);
             }}
           >
-            {getText(key.HL_Btn_Continue)}
+            {getText(key.HL_Btn_Continue, t, i18n)}
           </button>
         </div>
       </div>

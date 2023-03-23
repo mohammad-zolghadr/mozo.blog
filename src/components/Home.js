@@ -13,13 +13,16 @@ import Loading from "./Loading";
 import { TextKey, getText } from "../Text";
 import { getPostsList } from "../requests";
 import useTitle from "../hooks/useTitle";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 const Home = () => {
   let navigate = useNavigate();
   const key = new TextKey();
   const [postsList, setPostsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  useTitle(getText(key.H_Page_Title));
+  const { t, i18n } = useTranslation();
+  useTitle(getText(key.H_Page_Title, t, i18n));
 
   useEffect(() => {
     async function getData() {
@@ -36,30 +39,30 @@ const Home = () => {
         <img src={bgImage} />
         <span className="homeImageBlackCover"></span>
         <div className="homeMainLanding">
-          <h3>{getText(key.HL_Title)}</h3>
+          <h3>{getText(key.HL_Title, t, i18n)}</h3>
           <div className="homeMainLandingDescription">
             <span></span>
             <ul>
-              <li>{getText(key.HL_Option_1)}</li>
-              <li>{getText(key.HL_Option_2)}</li>
-              <li>{getText(key.HL_Option_3)}</li>
+              <li>{getText(key.HL_Option_1, t, i18n)}</li>
+              <li>{getText(key.HL_Option_2, t, i18n)}</li>
+              <li>{getText(key.HL_Option_3, t, i18n)}</li>
             </ul>
           </div>
           <div className="homeMainLandingBtns">
             <button onClick={() => navigate("/blog")} className="secondaryBtn">
-              {getText(key.HL_Btn_SeeAllPost)}
+              {getText(key.HL_Btn_SeeAllPost, t, i18n)}
             </button>
             <button
               onClick={() => navigate("/new-post")}
               className="primaryBtn"
             >
-              {getText(key.HL_Btn_NewPost)}
+              {getText(key.HL_Btn_NewPost, t, i18n)}
             </button>
           </div>
         </div>
       </div>
       <div className="homePostsContainer">
-        <h3>{getText(key.HL_Title_LastBlog)}</h3>
+        <h3>{getText(key.HL_Title_LastBlog, t, i18n)}</h3>
         <div className="postsListContainer">
           {isLoading && <Loading />}
           {postsList &&

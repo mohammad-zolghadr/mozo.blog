@@ -11,6 +11,8 @@ import style from "../sass/ReadMore.scss";
 import { getDataWithinId, downloadImage } from "../requests";
 import { getText, TextKey } from "../Text";
 import useTitle from "../hooks/useTitle";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 const ReadMore = () => {
   const [value, setValue] = useState({
@@ -25,6 +27,7 @@ const ReadMore = () => {
   const location = useLocation().pathname.split("/");
   const postId = +location[location.length - 1];
   const [isLoading, setIsLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     getDataWithinId(postId).then((res) => {
@@ -53,7 +56,7 @@ const ReadMore = () => {
             <img src={value.image} />
             <div className="readMoreAuthorInfo">
               <span>
-                {getText(key.HL_Authour_Title)}
+                {getText(key.HL_Authour_Title, t, i18n)}
                 {value.author}
               </span>
               <span>{value.date}</span>

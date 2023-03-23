@@ -16,14 +16,16 @@ import ReadMore from "./components/ReadMore";
 
 // Function
 import { getText, TextKey } from "./Text";
-import i18n from "./i18n";
 import { useTranslation } from "react-i18next";
+import i18n from "./i18n";
 
 import vpnIcon from "./assets/images/vpn.png";
 
 const App = () => {
   const key = new TextKey();
   const [isShowingGlobalMessage, setIsShowingGlobalMessage] = useState();
+
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     // only show message in First Time
@@ -35,8 +37,6 @@ const App = () => {
     }
   }, []);
 
-  const { t, i18n } = useTranslation();
-
   return (
     <div>
       <ToastContainer position="bottom-left" autoClose={4000} />
@@ -44,7 +44,7 @@ const App = () => {
       {isShowingGlobalMessage && (
         <GlobalMessage
           data={{
-            message: getText(key.TurnOnVPN),
+            message: getText(key.TurnOnVPN, t, i18n),
             image: vpnIcon,
             closeGlobalMessage: setIsShowingGlobalMessage,
           }}

@@ -53,7 +53,7 @@ class TextKey {
   AM_NAME = "AM_MY_NAME";
   AM_SPECIALTY = "AM_SPECIALTY_FRONT_END";
   AM_SEE_MY_WEB = "AM_SEE_MY_PORTFOLIO";
-  AM_PAGE_TITLE = "AM_PAGE_TITLE";
+  AM_Page_Title = "AM_PAGE_TITLE";
 
   // Other
   Mood = "Mood";

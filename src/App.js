@@ -16,6 +16,8 @@ import ReadMore from "./components/ReadMore";
 
 // Function
 import { getText, TextKey } from "./Text";
+import i18n from "./i18n";
+import { useTranslation } from "react-i18next";
 
 import vpnIcon from "./assets/images/vpn.png";
 
@@ -32,6 +34,8 @@ const App = () => {
       localStorage.setItem("showVpnOn", JSON.stringify(false));
     }
   }, []);
+
+  const { t, i18n } = useTranslation();
 
   return (
     <div>

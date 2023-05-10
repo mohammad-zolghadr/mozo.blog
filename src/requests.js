@@ -25,11 +25,12 @@ const key = new TextKey();
 
 const getPostsList = async (startId = 0, limitCount = 3, mood = '') => {
   let customQuery = '';
-  mood = mood[0];
+  const catQuery = isPersian() ? 'fa-category' : 'en-category';
+  if (typeof mood !== 'string') mood = mood[0];
   if (mood !== '' && mood !== 'همه' && mood !== 'all')
     customQuery = query(
       postsCollectionRef,
-      where('category', '==', mood),
+      where(catQuery, '==', mood),
       orderBy('id'),
       limit(limitCount),
       startAt(startId)

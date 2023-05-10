@@ -67,9 +67,17 @@ const getDataWithinId = async (id) => {
 };
 
 const getMoodsList = async () => {
-  let data = await getDocs(moodsCollectionRef);
-  const arrayData = data.docs.map((doc) => ({ ...doc.data() }));
-  return arrayData.map((el) => Object.values(el)[0]);
+  let customQuery = '';
+  if (i18n.languages[0] === 'fa')
+    customQuery = query(moodsCollectionRef, where('lang', '==', 'fa'));
+  else {
+    customQuery = query(moodsCollectionRef, where('lang', '==', 'en'));
+  }
+  let data = await getDocs(customQuery);
+  let arrayData = data.docs.map((doc) => ({ ...doc.data() }));
+  arrayData = removeObjectByProperty(arrayData, 'lang');
+  console.log(arrayData);
+  return arrayData.map((el) => Object.values(el));
 };
 
 const sendPost = async (
@@ -122,7 +130,6 @@ const uploadImage = async (imageFile) => {
 };
 
 const getAboutMeData = async () => {
-  console.log(i18n.languages[0]);
   let customQuery = '';
   if (i18n.languages[0] === 'fa')
     customQuery = query(aboutMeCollectionRef, where('lang', '==', 'fa'));
@@ -164,6 +171,14 @@ const downloadImage = async (resId) => {
   });
   return finalUrl;
 };
+
+function removeObjectByProperty(arr, prop) {
+  arr.forEach(function (obj) {
+    delete obj[prop];
+  });
+
+  return arr;
+}
 
 export {
   getPostsList,

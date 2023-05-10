@@ -48,8 +48,7 @@ const Blog = () => {
 
   async function getData() {
     const fetchedData = await getPostsList(
-      // getLastPostFetchedWithinMood().count,
-      0,
+      getLastPostFetchedWithinMood().count,
       countPostFetchPerRequest,
       mood
     );

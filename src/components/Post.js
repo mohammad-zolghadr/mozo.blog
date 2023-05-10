@@ -1,33 +1,36 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import style from "../sass/Post.scss";
+import style from '../sass/Post.scss';
 
 // Functions
-import { getText, TextKey } from "../Text";
-import { downloadImage } from "../requests";
-import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
+import { getText, TextKey } from '../Text';
+import { downloadImage } from '../requests';
+import { useTranslation } from 'react-i18next';
+import { isPersian } from '../funcs';
 
 const Post = (props) => {
-  const { image, title, summary, author, date, category, id } = props.data;
+  const { image, title, summary, author, date, id } = props.data;
+  const category = isPersian()
+    ? props.data['fa-category']
+    : props.data['en-category'];
   let navigate = useNavigate();
   const key = new TextKey();
   const [imageUrl, setImageUrl] = useState();
-  const location = useLocation().pathname.split("/")[1];
+  const location = useLocation().pathname.split('/')[1];
   const { t, i18n } = useTranslation();
 
   downloadImage(image).then((url) => setImageUrl(url));
 
   return (
-    <div className="postContainer">
+    <div className='postContainer'>
       <img src={imageUrl} />
-      <span className="postItemCategory">
+      <span className='postItemCategory'>
         {getText(key.Mood, t, i18n) + category}
       </span>
       <div>
         <h3>{title}</h3>
-        <div className="postDescriptionTextContainer">
+        <div className='postDescriptionTextContainer'>
           <p>{summary}</p>
           <span></span>
         </div>
@@ -42,7 +45,7 @@ const Post = (props) => {
           <span></span>
           <button
             onClick={() => {
-              if (location && location === "blog") navigate(`${id}`);
+              if (location && location === 'blog') navigate(`${id}`);
               else navigate(`blog/${id}`);
             }}
           >

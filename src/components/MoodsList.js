@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 // Functions
-import { getMoodsList } from "../requests";
+import { getMoodsList } from '../requests';
 
-import style from "../sass/MoodsList.scss";
+import style from '../sass/MoodsList.scss';
 
 const MoodsList = (props) => {
   const [categorySelected, setCategorySelected] = useState(0);
@@ -27,13 +27,13 @@ const MoodsList = (props) => {
 
   const changeCategory = (e) => {
     const index = categories.findIndex(
-      (element) => element === e.target.innerText
+      (element) => element[0] === e.target.innerText
     );
     setCategorySelected(index);
     props.mood(categories[index]);
   };
   return (
-    <div className="bp_categoriesContainer">
+    <div className='bp_categoriesContainer'>
       {categories &&
         categories.map((el, index) => {
           if (index !== categorySelected) {
@@ -45,7 +45,7 @@ const MoodsList = (props) => {
           } else {
             return (
               <span
-                className="bp_categorySelected"
+                className='bp_categorySelected'
                 onClick={changeCategory}
                 key={index}
               >

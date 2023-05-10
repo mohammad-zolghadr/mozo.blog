@@ -1,7 +1,6 @@
-import i18n from './i18n';
-
 // Function
 import { TextKey, getText } from './Text';
+import { isPersian, removeObjectByProperty } from './funcs';
 // Firebase
 import {
   getDocs,
@@ -26,7 +25,8 @@ const key = new TextKey();
 
 const getPostsList = async (startId = 0, limitCount = 3, mood = '') => {
   let customQuery = '';
-  if (mood !== '' && mood !== 'همه')
+  mood = mood[0];
+  if (mood !== '' && mood !== 'همه' && mood !== 'all')
     customQuery = query(
       postsCollectionRef,
       where('category', '==', mood),
@@ -68,7 +68,7 @@ const getDataWithinId = async (id) => {
 
 const getMoodsList = async () => {
   let customQuery = '';
-  if (i18n.languages[0] === 'fa')
+  if (isPersian())
     customQuery = query(moodsCollectionRef, where('lang', '==', 'fa'));
   else {
     customQuery = query(moodsCollectionRef, where('lang', '==', 'en'));
@@ -76,7 +76,6 @@ const getMoodsList = async () => {
   let data = await getDocs(customQuery);
   let arrayData = data.docs.map((doc) => ({ ...doc.data() }));
   arrayData = removeObjectByProperty(arrayData, 'lang');
-  console.log(arrayData);
   return arrayData.map((el) => Object.values(el));
 };
 
@@ -131,7 +130,7 @@ const uploadImage = async (imageFile) => {
 
 const getAboutMeData = async () => {
   let customQuery = '';
-  if (i18n.languages[0] === 'fa')
+  if (isPersian())
     customQuery = query(aboutMeCollectionRef, where('lang', '==', 'fa'));
   else {
     customQuery = query(aboutMeCollectionRef, where('lang', '==', 'en'));
@@ -171,14 +170,6 @@ const downloadImage = async (resId) => {
   });
   return finalUrl;
 };
-
-function removeObjectByProperty(arr, prop) {
-  arr.forEach(function (obj) {
-    delete obj[prop];
-  });
-
-  return arr;
-}
 
 export {
   getPostsList,

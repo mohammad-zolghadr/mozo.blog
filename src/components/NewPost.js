@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 // styles & icons
-import style from "../sass/NewPost.scss";
+import style from '../sass/NewPost.scss';
 
 // Function
-import { TextKey, getText } from "../Text";
-import { sendPost, getLastId } from "../requests";
-import useTitle from "../hooks/useTitle";
-import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
+import { TextKey, getText } from '../Text';
+import { sendPost, getLastId } from '../requests';
+import useTitle from '../hooks/useTitle';
+import { useTranslation } from 'react-i18next';
+import { isPersian, getOppositeCategory } from '../funcs';
 
 // components
-import Loading from "./Loading";
-import MoodsList from "./MoodsList";
-import RichtextEditor from "./RichtextEditor";
+import Loading from './Loading';
+import MoodsList from './MoodsList';
+import RichtextEditor from './RichtextEditor';
 
 const SUMMARY_LIMIT_CHAR = 120;
 
 const NewPost = () => {
   const key = new TextKey();
   const [inputValue, setInputValue] = useState({
-    title: "",
-    summary: "",
-    image: "",
+    title: '',
+    summary: '',
+    image: '',
   });
-  const [ivBody, setIvBody] = useState("");
-  const [mood, setMood] = useState("همه");
+  const [ivBody, setIvBody] = useState('');
+  const [mood, setMood] = useState(isPersian() ? 'همه' : 'all');
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [userInfo, setUserInfo] = useState(
-    JSON.parse(localStorage.getItem("userInfo"))
+    JSON.parse(localStorage.getItem('userInfo'))
   );
   const { t, i18n } = useTranslation();
 
@@ -38,13 +38,13 @@ const NewPost = () => {
 
   const inputHandler = (e) => {
     switch (e.target.name) {
-      case "image":
+      case 'image':
         setInputValue({
           ...inputValue,
           image: e.target.files[e.target.files.length - 1],
         });
         break;
-      case "body":
+      case 'body':
         setIvBody(e.target.value);
         break;
       default:
@@ -52,11 +52,11 @@ const NewPost = () => {
         break;
     }
     if (
-      e.target.name === "image" &&
+      e.target.name === 'image' &&
       e.target.files[e.target.files.length - 1]
     ) {
       const reader = new FileReader();
-      reader.addEventListener("load", () => {
+      reader.addEventListener('load', () => {
         setPreviewImage(reader.result);
       });
       reader.readAsDataURL(e.target.files[e.target.files.length - 1]);
@@ -88,13 +88,13 @@ const NewPost = () => {
 
   const sendData = (event) => {
     event.preventDefault();
-    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+    setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
 
     if (isDataValidate()) {
       setIsLoading(true);
       let id = 0;
       getLastId().then((res) => {
-        typeof res === "number" ? (id = res) : (id = +res.integerValue + 1);
+        typeof res === 'number' ? (id = res) : (id = +res.integerValue + 1);
         sendPost(
           id,
           inputValue.image,
@@ -103,13 +103,15 @@ const NewPost = () => {
           ivBody,
           userInfo.name,
           userInfo.email,
-          mood
+          mood,
+          t,
+          i18n
         ).then((isUploaded) => {
           setIsLoading(false);
           if (isUploaded.state) {
             successToast(isUploaded.text);
-            setInputValue({ title: "", image: "", summary: "" });
-            setIvBody("");
+            setInputValue({ title: '', image: '', summary: '' });
+            setIvBody('');
           } else errorToast(isUploaded.text);
         });
       });
@@ -117,66 +119,66 @@ const NewPost = () => {
   };
 
   return (
-    <div className="cContainer">
+    <div className='cContainer'>
       {isLoading && <Loading showFullScreen={true} />}
-      <form onSubmit={sendData} className="newPostFormContainer">
-        <div className="npInputContainer">
-          <label className="npLabel">{getText(key.NP_PH_Title, t, i18n)}</label>
+      <form onSubmit={sendData} className='newPostFormContainer'>
+        <div className='npInputContainer'>
+          <label className='npLabel'>{getText(key.NP_PH_Title, t, i18n)}</label>
           <input
-            name="title"
-            type="text"
+            name='title'
+            type='text'
             value={inputValue.title}
             onChange={inputHandler}
           />
         </div>
 
-        <div className="npInputContainer">
-          <label className="npLabel">{getText(key.NP_PH_Body, t, i18n)}</label>
+        <div className='npInputContainer'>
+          <label className='npLabel'>{getText(key.NP_PH_Body, t, i18n)}</label>
           <RichtextEditor hocState={{ ivBody, setIvBody }} />
         </div>
 
-        <div className="npInputContainer">
-          <label className="npLabel">
+        <div className='npInputContainer'>
+          <label className='npLabel'>
             {getText(key.NP_PH_Summary, t, i18n)}
           </label>
-          <div className="npSummaryContainer">
+          <div className='npSummaryContainer'>
             <textarea
-              className="npSummary"
-              name="summary"
-              type="text"
+              className='npSummary'
+              name='summary'
+              type='text'
               value={inputValue.summary}
               onChange={inputHandler}
-              maxLength="120"
+              maxLength='120'
             />
             <span
-              className="npSummaryLimitation"
+              className='npSummaryLimitation'
               style={{
                 color:
-                  inputValue.summary.length === SUMMARY_LIMIT_CHAR && "#f00",
+                  inputValue.summary.length === SUMMARY_LIMIT_CHAR && '#f00',
               }}
             >{`${inputValue.summary.length}/${SUMMARY_LIMIT_CHAR}`}</span>
           </div>
         </div>
-        <div className="newPostFileChooser">
-          <label htmlFor="file-upload" className="newPostFileUpload">
+        <div className='newPostFileChooser'>
+          <label htmlFor='file-upload' className='newPostFileUpload'>
             {getText(key.NP_IN_File, t, i18n)}
           </label>
           <input
-            name="image"
-            id="file-upload"
-            type="file"
+            name='image'
+            id='file-upload'
+            type='file'
             onChange={inputHandler}
-            accept="image/png, image/jpeg"
+            accept='image/png, image/jpeg'
           />
           {inputValue.image && (
-            <img className="newPostImagePreview" src={previewImage} />
+            <img className='newPostImagePreview' src={previewImage} />
           )}
-          <span className="newPostImageCondition">
+          <span className='newPostImageCondition'>
             {getText(key.NP_MaximumPicSize, t, i18n)}
           </span>
         </div>
         <MoodsList mood={setMood} />
-        <button type="submit" className="newPostSubmit">
+        <button type='submit' className='newPostSubmit'>
           {getText(key.NP_Btn_Post, t, i18n)}
         </button>
       </form>

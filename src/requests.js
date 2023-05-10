@@ -1,6 +1,10 @@
 // Function
 import { TextKey, getText } from './Text';
-import { isPersian, removeObjectByProperty } from './funcs';
+import {
+  isPersian,
+  removeObjectByProperty,
+  getOppositeCategory,
+} from './funcs';
 // Firebase
 import {
   getDocs,
@@ -88,9 +92,15 @@ const sendPost = async (
   body,
   author,
   email,
-  mood = 'همه'
+  mood = isPersian() ? 'همه' : 'all',
+  t,
+  i18n
 ) => {
   let isUploaded = { state: false, text: '' };
+  const tempMood = {
+    'en-category': isPersian() ? getOppositeCategory(mood[0], true) : mood[0],
+    'fa-category': isPersian() ? mood[0] : getOppositeCategory(mood[0], false),
+  };
   await uploadImage(image)
     .then(async (imageIdUploaded) => {
       await addDoc(postsCollectionRef, {
@@ -102,17 +112,27 @@ const sendPost = async (
         author,
         email,
         date: new Date().toLocaleDateString('fa-IR'),
-        category: mood,
+        ...tempMood,
       })
         .then(() => {
-          isUploaded = { state: true, text: getText(key.NP_SuccessPost) };
+          isUploaded = {
+            state: true,
+            text: getText(key.NP_SuccessPost, t, i18n),
+          };
         })
         .catch(() => {
-          isUploaded = { state: false, text: getText(key.NP_ErrorPost) };
+          isUploaded = {
+            state: false,
+            text: getText(key.NP_ErrorPost, t, i18n),
+          };
         });
     })
     .catch(
-      () => (isUploaded = { state: false, text: getText(key.NP_ErrorPost) })
+      () =>
+        (isUploaded = {
+          state: false,
+          text: getText(key.NP_ErrorPost, t, i18n),
+        })
     );
   return isUploaded;
 };

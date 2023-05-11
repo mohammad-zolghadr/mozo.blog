@@ -14,7 +14,6 @@ import { TextKey, getText } from '../Text';
 import { getPostsList } from '../requests';
 import useTitle from '../hooks/useTitle';
 import { useTranslation } from 'react-i18next';
-import { compressImageFromSrc } from '../funcs';
 
 const Home = () => {
   let navigate = useNavigate();
@@ -36,7 +35,7 @@ const Home = () => {
   return (
     <div className='homeWrapper'>
       <div className='homeContainer'>
-        <img src={compressImageFromSrc(bgImage)} />
+        <img src={bgImage} />
         <span className='homeImageBlackCover'></span>
         <div className='homeMainLanding'>
           <h3>{getText(key.HL_Title, t, i18n)}</h3>

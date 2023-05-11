@@ -80,7 +80,7 @@ const compressImageFromSrc = (src) => {
   canvas.width = img.width;
   canvas.height = img.height;
   ctx.drawImage(img, 0, 0);
-  let dataURL = canvas.toDataURL('image/jpeg', 0.6);
+  let dataURL = canvas.toDataURL('image/jpeg', 0.7);
   return dataURL;
 };
 

@@ -11,7 +11,6 @@ import languageIcon from '../assets/images/changeLanguage.svg';
 import { getText, TextKey } from '../Text';
 import { mSignUp, mSignOut } from '../requests';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
 
 const Navbar = () => {
   const key = new TextKey();
@@ -107,6 +106,7 @@ const Navbar = () => {
                 onClick={() => {
                   i18n.changeLanguage(getOppositeLanguage());
                   saveLangToLocalStorage(i18n.languages[0]);
+                  window.location.reload();
                 }}
               >
                 <span>{getOppositeLanguage()}</span>

@@ -72,4 +72,21 @@ const getOppositeCategory = (inputCat, isPersian) => {
   }
 };
 
-export { isPersian, removeObjectByProperty, getOppositeCategory };
+const compressImageFromSrc = (src) => {
+  let img = new Image();
+  img.src = src;
+  let canvas = document.createElement('canvas');
+  let ctx = canvas.getContext('2d');
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0);
+  let dataURL = canvas.toDataURL('image/jpeg', 0.6);
+  return dataURL;
+};
+
+export {
+  isPersian,
+  removeObjectByProperty,
+  getOppositeCategory,
+  compressImageFromSrc,
+};
